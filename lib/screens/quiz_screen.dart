@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
 import 'package:animate_do/animate_do.dart';
 import '../main.dart';
@@ -59,6 +60,7 @@ class _QuizScreenState extends State<QuizScreen> {
       _beantwortet = true;
     });
     if (richtig) {
+      HapticFeedback.lightImpact();
       _confetti.play();
       _punkteSession += 10;
       _richtigInFolge++;
@@ -66,6 +68,7 @@ class _QuizScreenState extends State<QuizScreen> {
           bereich: frage.bereich);
       ttsService.sprechen('Super gemacht!');
     } else {
+      HapticFeedback.heavyImpact();
       _richtigInFolge = 0;
       fortschrittService.frageFalschBeantwortet(frage.id,
           bereich: frage.bereich);

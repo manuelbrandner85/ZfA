@@ -14,9 +14,15 @@ class TtsService {
 
   Future<void> initialisieren() async {
     await _tts.setLanguage('de-DE');
-    await _tts.setSpeechRate(0.45); // Langsam für besseres Verstehen!
+    // Etwas natürlicher als ganz langsam – wirkt weniger roboterhaft.
+    await _tts.setSpeechRate(0.5);
     await _tts.setVolume(1.0);
     await _tts.setPitch(1.0);
+    // Wichtig für sauberes Satz-für-Satz-Vorlesen (Karaoke).
+    await _tts.awaitSpeakCompletion(true);
+
+    // Beste verfügbare deutsche Stimme wählen (klingt realistischer).
+    await _besteStimmeWaehlen();
 
     _tts.setStartHandler(() {
       zustand = TtsZustand.spricht;
@@ -33,6 +39,43 @@ class TtsService {
       zustand = TtsZustand.gestoppt;
       onZustandAendert?.call(zustand);
     });
+  }
+
+  // Sucht aus den installierten Stimmen die natürlichste deutsche Stimme.
+  // Bevorzugt hochwertige (network/neural) Stimmen, fällt sonst auf eine
+  // beliebige de-DE-Stimme zurück. Schlägt das fehl, bleibt die Standardstimme.
+  Future<void> _besteStimmeWaehlen() async {
+    try {
+      final dynamic voices = await _tts.getVoices;
+      if (voices is! List) return;
+      final deutsche = voices
+          .whereType<Map>()
+          .map((v) => v.map((k, val) => MapEntry(k.toString(), val.toString())))
+          .where((v) => (v['locale'] ?? '').toLowerCase().startsWith('de'))
+          .toList();
+      if (deutsche.isEmpty) return;
+
+      int bewerten(Map<String, String> v) {
+        final name = (v['name'] ?? '').toLowerCase();
+        int score = 0;
+        if (name.contains('neural')) score += 5;
+        if (name.contains('network')) score += 4;
+        if (name.contains('enhanced') || name.contains('premium')) score += 3;
+        if (name.contains('wavenet')) score += 5;
+        // de-DE exakt bevorzugen
+        if ((v['locale'] ?? '').toLowerCase() == 'de-de') score += 2;
+        return score;
+      }
+
+      deutsche.sort((a, b) => bewerten(b).compareTo(bewerten(a)));
+      final beste = deutsche.first;
+      await _tts.setVoice({
+        'name': beste['name'] ?? '',
+        'locale': beste['locale'] ?? 'de-DE',
+      });
+    } catch (_) {
+      // Stimme bleibt Standard – kein Abbruch.
+    }
   }
 
   // Einfaches Vorlesen eines kurzen Textes

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:animate_do/animate_do.dart';
 import '../main.dart';
 import '../widgets/cinematic_background.dart';
@@ -9,6 +10,7 @@ import 'karteikarten_screen.dart';
 import 'quiz_screen.dart';
 import 'fehler_suchen_screen.dart';
 import 'fortschritt_screen.dart';
+import 'muendliche_pruefung_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -124,7 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 12),
 
-                    // 6 große Menü-Karten
+                    // Große Menü-Karten
+                    _MenuKarte(
+                      emoji: '🎓',
+                      titel: 'Mündliche Prüfung',
+                      untertitel: 'Fachgespräch laut üben',
+                      farben: const [Color(0xFF4527A0), Color(0xFF7E57C2)],
+                      ziel: const MuendlichePruefungScreen(),
+                      onReturn: () => setState(() {}),
+                    ),
                     _MenuKarte(
                       emoji: '📖',
                       titel: 'Hörbuch',
@@ -318,6 +328,7 @@ class _MenuKarte extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(24),
           onTap: () {
+            HapticFeedback.lightImpact();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => ziel),

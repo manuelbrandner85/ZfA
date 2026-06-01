@@ -12,12 +12,16 @@ Oder die APK direkt aus dem letzten Build laden:
 **Actions → „🦷 ZFA Lernapp — Build APK" → letzter Lauf → Artifact „ZFA-Lernapp-APK"**
 
 ## 🎯 Was kann die App?
+- 🎓 **Mündliche Prüfung** — Fachgespräch-Simulation: Prüferfrage wird vorgelesen, du antwortest laut, mit Stichpunkten & Musterantwort (alle Prüfungsthemen inkl. Notfall, Röntgen/Strahlenschutz, Recht, Abrechnung)
 - 📖 **Hörbuch-Modus** — 10 Kapitel zum Anhören mit Karaoke-Highlight & Geschwindigkeitsregler
 - 🎤 **Sprach-Quiz** — Antworten einsprechen statt tippen (mit Multiple-Choice-Fallback)
 - 🃏 **Karteikarten** — Flip-Karten mit Spaced Repetition (Leitner-System) & Swipe-Gesten
 - 🎯 **Quiz** — 80 Fragen mit Gamification, Konfetti & Streak
 - 🔍 **Fehler finden** — Aufgaben im TikTok-Stil: „Was ist hier falsch?"
 - 📊 **Fortschritt** — Leitner-Boxen, Bereichs-Statistiken & persönliche Empfehlung
+
+Die Sprachausgabe (TTS) wählt automatisch die natürlichste installierte deutsche Stimme
+(bevorzugt Neural-/Netzwerk-Stimmen) und nutzt eine angenehme, gut verständliche Sprechrate.
 
 ## 🧠 Lernprinzipien
 1. **Micro-Learning** — kurze Einheiten, schon 5 Minuten reichen

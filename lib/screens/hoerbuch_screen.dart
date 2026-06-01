@@ -17,8 +17,8 @@ class _HoerbuchScreenState extends State<HoerbuchScreen> {
   double _tempo = 1.0; // Anzeige-Faktor (1.0 = normal 0.45)
   final ScrollController _scroll = ScrollController();
 
-  // Mapping Anzeige-Faktor -> TTS-Rate (Basis 0.45)
-  double _ttsRate(double faktor) => (0.45 * faktor).clamp(0.1, 1.0);
+  // Mapping Anzeige-Faktor -> TTS-Rate (Basis 0.5, natürlicher)
+  double _ttsRate(double faktor) => (0.5 * faktor).clamp(0.1, 1.0);
 
   @override
   void initState() {
