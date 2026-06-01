@@ -18,6 +18,9 @@ import 'cockpit_screen.dart';
 import 'lernpfad_screen.dart';
 import 'erfolge_screen.dart';
 import 'ablaeufe_screen.dart';
+import 'live_fachgespraech_screen.dart';
+import 'eigene_karten_screen.dart';
+import 'glossar_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -173,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontSize: 17,
                                         fontWeight: FontWeight.w800)),
                                 Text(
-                                    '20 Abläufe Schritt für Schritt – fürs Fachgespräch',
+                                    '18 echte Abläufe Schritt für Schritt – fürs Fachgespräch',
                                     style: TextStyle(
                                         color: tc.withOpacity(0.6),
                                         fontSize: 12.5)),
@@ -267,9 +270,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       titel: 'Prüfung',
                       poster: [
                         _Poster(
+                            '🎙️',
+                            'Live-Fachgespräch',
+                            'Sprechen mit Note',
+                            const LinearGradient(colors: [
+                              Color(0xFF8B5CF6),
+                              Color(0xFF5B21B6)
+                            ]),
+                            const LiveFachgespraechScreen(),
+                            _refresh),
+                        _Poster(
                             '🎓',
                             'Mündliche Prüfung',
-                            'Fachgespräch',
+                            'Fachgespräch üben',
                             const LinearGradient(colors: [
                               Color(0xFF7C5CFF),
                               Color(0xFF4527A0)
@@ -285,6 +298,29 @@ class _HomeScreenState extends State<HomeScreen> {
                               Color(0xFF1A237E)
                             ]),
                             const MockPruefungScreen(),
+                            _refresh),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    _Rail(
+                      titel: 'Werkzeuge',
+                      poster: [
+                        _Poster(
+                            '📚',
+                            'Glossar',
+                            'Begriffe suchen',
+                            const LinearGradient(colors: [
+                              Color(0xFF0EA5E9),
+                              Color(0xFF0369A1)
+                            ]),
+                            const GlossarScreen(),
+                            _refresh),
+                        _Poster(
+                            '⭐',
+                            'Meine Karten',
+                            'Selbst anlegen',
+                            ZfaTheme.goldGrad,
+                            const EigeneKartenScreen(),
                             _refresh),
                       ],
                     ),

@@ -32,7 +32,7 @@ class Behandlungsablauf {
   /// Alle Schritte als ein vorlesbarer Text (für die Sprachausgabe).
   List<String> alleSaetze() => [
         'Ablauf: $titel.',
-        'Wann: $indikation',
+        if (indikation.isNotEmpty) 'Wann: $indikation',
         for (final p in phasen) ...[
           '${p.titel}:',
           ...p.schritte,

@@ -4,6 +4,7 @@ import 'core/services/tts_service.dart';
 import 'core/services/fortschritt_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/sound_service.dart';
+import 'core/services/eigene_karten_service.dart';
 import 'theme/theme_controller.dart';
 import 'theme/zfa_theme.dart';
 import 'screens/splash_screen.dart';
@@ -18,6 +19,8 @@ final NotificationService notificationService = NotificationService();
 final ThemeController themeController = ThemeController();
 // Globale, abschaltbare UI-Klänge
 final SoundService soundService = SoundService();
+// Eigene, vom Nutzer angelegte Karteikarten
+final EigeneKartenService eigeneKartenService = EigeneKartenService();
 // Globaler Audio-Zustand für Mini-Player
 final ValueNotifier<AudioZustand?> aktuellerAudio = ValueNotifier(null);
 
@@ -45,6 +48,7 @@ void main() async {
   await notificationService.initialisieren();
   await themeController.laden();
   await soundService.initialisieren();
+  await eigeneKartenService.laden();
   runApp(const ZFALernApp());
 }
 

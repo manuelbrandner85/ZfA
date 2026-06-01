@@ -202,15 +202,19 @@ class _AblaufDetailScreenState extends State<AblaufDetailScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Wann?',
-                                    style: TextStyle(
-                                        color: Colors.white70, fontSize: 12)),
-                                Text(a.indikation,
+                                Text(a.titel,
                                     style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 14,
-                                        height: 1.3,
-                                        fontWeight: FontWeight.w600)),
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w800)),
+                                Text(
+                                    a.indikation.isEmpty
+                                        ? '${a.untertitel} · ${a.anzahlSchritte} Schritte'
+                                        : a.indikation,
+                                    style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 13,
+                                        height: 1.3)),
                               ],
                             ),
                           ),
