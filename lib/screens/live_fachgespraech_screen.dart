@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 import '../main.dart';
 import '../core/services/stt_service.dart';
+import '../core/text_match.dart';
 import '../theme/zfa_theme.dart';
 import '../models/fachgespraech_frage.dart';
 import '../data/muendliche_pruefung_daten.dart';
@@ -69,23 +70,13 @@ class _LiveFachgespraechScreenState extends State<LiveFachgespraechScreen> {
     });
   }
 
-  // Zerlegt einen Stichpunkt in bedeutsame Wörter (>=5 Buchstaben).
-  List<String> _woerter(String s) => s
-      .toLowerCase()
-      .replaceAll(RegExp(r'[^a-zäöüß ]'), ' ')
-      .split(' ')
-      .where((w) => w.length >= 5)
-      .toList();
-
   void _auswerten() {
     _timer?.cancel();
     final frage = _fragen[_index];
-    final gesagt = _erkannt.toLowerCase();
+    final gespStaemme = TextMatch.staemme(_erkannt);
     final treffer = <bool>[];
     for (final sp in frage.stichpunkte) {
-      final ws = _woerter(sp);
-      final hit = ws.isEmpty ? false : ws.any((w) => gesagt.contains(w));
-      treffer.add(hit);
+      treffer.add(TextMatch.genannt(sp, _erkannt, gespStaemme));
     }
     final score = frage.stichpunkte.isEmpty
         ? 0.0

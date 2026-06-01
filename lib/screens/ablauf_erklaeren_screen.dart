@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
 import '../main.dart';
 import '../core/services/stt_service.dart';
+import '../core/text_match.dart';
 import '../theme/zfa_theme.dart';
 import '../models/behandlungsablauf.dart';
 import '../widgets/sprach_eingabe_button.dart';
@@ -55,22 +56,15 @@ class _AblaufErklaerenScreenState extends State<AblaufErklaerenScreen> {
     super.dispose();
   }
 
-  List<String> _woerter(String s) => s
-      .toLowerCase()
-      .replaceAll(RegExp(r'[^a-zäöüß ]'), ' ')
-      .split(' ')
-      .where((w) => w.length >= 5)
-      .toList();
-
   void _auswerten() {
-    final gesagt = _erkannt.toLowerCase();
+    final gesagt = _erkannt;
+    final gespStaemme = TextMatch.staemme(gesagt);
     int gesamt = 0;
     int getroffen = 0;
     for (final p in widget.ablauf.phasen) {
       for (final s in p.schritte) {
         gesamt++;
-        final ws = _woerter(s);
-        final hit = ws.isNotEmpty && ws.any((w) => gesagt.contains(w));
+        final hit = TextMatch.genannt(s, gesagt, gespStaemme);
         _treffer[s] = hit;
         if (hit) getroffen++;
       }
