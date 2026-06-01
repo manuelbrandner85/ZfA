@@ -17,7 +17,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an01',
     frage: 'Was bedeutet die Abkürzung eGK?',
-    einfacheErklaerung: '💳 Das ist einfach die blaue Krankenkassenkarte, die jeder Patient dabei hat.',
+    einfacheErklaerung: '💳 Die blaue Krankenkassenkarte speichert Name, Versicherung und Status auf einem Chip. Du liest sie einmal pro Quartal ein, damit die Praxis mit der Kasse abrechnen darf.',
     merkhilfe: 'eGK = elektronische GesundheitsKarte.',
     antworten: [
       'Elektronische Gesundheitskarte',
@@ -34,7 +34,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an02',
     frage: 'Was versteht man unter einer Anamnese?',
-    einfacheErklaerung: '📋 Die Sammlung aller Infos über die Krankengeschichte des Patienten — wie ein Steckbrief der Gesundheit.',
+    einfacheErklaerung: '📋 Wie ein Gesundheits-Steckbrief: Vorerkrankungen, Allergien und Medikamente. Sie schützt den Patienten, weil z. B. ein Herzfehler oder Blutverdünner die Behandlung verändern.',
     merkhilfe: 'Anamnese = was war früher, was ist jetzt.',
     antworten: [
       'Die Erhebung der Krankengeschichte',
@@ -51,7 +51,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an03',
     frage: 'Warum ist die Einnahme von Gerinnungshemmern wichtig zu wissen?',
-    einfacheErklaerung: '🩸 Blutverdünner sorgen dafür, dass eine Wunde länger blutet — das muss der Zahnarzt vor einem Eingriff wissen.',
+    einfacheErklaerung: '🩸 Blutverdünner wie Marcumar oder ASS halten das Blut dünn gegen Thrombosen. Beim Zahnziehen blutet es dadurch länger, deshalb muss der Zahnarzt es vorher wissen.',
     merkhilfe: 'Blutverdünner = blutet länger.',
     antworten: [
       'Der Patient blutet länger nach Eingriffen',
@@ -68,7 +68,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an04',
     frage: 'Wann darf eine geplante Behandlung ohne Unterschrift NICHT stattfinden?',
-    einfacheErklaerung: '✍️ Ohne unterschriebene Aufklärung darf nicht behandelt werden — das schützt Patient und Praxis.',
+    einfacheErklaerung: '✍️ Erst nach der Aufklärung kann der Patient frei entscheiden und unterschreiben. Ohne Unterschrift fehlt die Einwilligung, und der Eingriff wäre rechtlich Körperverletzung.',
     merkhilfe: 'Keine Unterschrift, keine Behandlung.',
     antworten: [
       'Wenn die Aufklärung nicht unterschrieben ist',
@@ -85,7 +85,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an05',
     frage: 'Was sollte man einen Diabetiker vor der Behandlung fragen?',
-    einfacheErklaerung: '🍎 Ob er gegessen und seine Medikamente genommen hat — sonst kann der Blutzucker entgleisen.',
+    einfacheErklaerung: '🍎 Bei Diabetes kann der Blutzucker absacken und der Patient ohnmächtig werden. Darum fragst du, ob er gegessen und seine Medikamente genommen hat.',
     merkhilfe: 'G-E-M: Gegessen? Eingenommen? Messung?',
     antworten: [
       'Ob er gegessen und Medikamente genommen hat',
@@ -102,7 +102,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an06',
     frage: 'Warum sollte ein Patient nach einer Betäubung nicht selbst Auto fahren?',
-    einfacheErklaerung: '🚗 Nach manchen Eingriffen ist die Reaktion eingeschränkt — Sicherheit geht vor.',
+    einfacheErklaerung: '🚗 Nach Sedierung oder größeren Eingriffen sind Reaktion und Konzentration herabgesetzt. Deshalb soll eine Begleitperson da sein und der Patient nicht selbst fahren.',
     merkhilfe: 'Betäubt = nicht ans Steuer.',
     antworten: [
       'Seine Reaktions- und Konzentrationsfähigkeit kann eingeschränkt sein',
@@ -119,7 +119,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an07',
     frage: 'Was ist ein Recall in der Zahnarztpraxis?',
-    einfacheErklaerung: '🔔 Eine freundliche Erinnerung, dass es Zeit für die nächste Kontrolle oder Prophylaxe ist.',
+    einfacheErklaerung: '🔔 Ein Erinnerungssystem, das Patienten zur Kontrolle oder Prophylaxe einbestellt. Das hält Zähne gesund und bindet die Patienten an die Praxis.',
     merkhilfe: 'Recall = Rückruf zur Kontrolle.',
     antworten: [
       'Ein Erinnerungssystem für Kontrolltermine',
@@ -136,7 +136,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an08',
     frage: 'Was gehört zur Schweigepflicht?',
-    einfacheErklaerung: '🤐 Alles was du über Patienten erfährst, bleibt in der Praxis — auch privat.',
+    einfacheErklaerung: '🤐 Alles über Patienten bleibt geheim, auch gegenüber Familie und nach Feierabend. Verstöße sind strafbar und nach der DSGVO verboten.',
     merkhilfe: 'Was du hörst, bleibt hier.',
     antworten: [
       'Keine Patientendaten an Dritte weitergeben',
@@ -153,7 +153,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an09',
     frage: 'Was ist der erste Schritt beim Empfang eines Patienten?',
-    einfacheErklaerung: '😊 Blickkontakt, Namen nennen, lächeln — der erste Eindruck zählt.',
+    einfacheErklaerung: '😊 Der erste Eindruck entsteht in Sekunden und entscheidet über Vertrauen. Blickkontakt, Name und ein Lächeln nehmen dem Patienten die Anspannung.',
     merkhilfe: 'Blick - Name - Lächeln.',
     antworten: [
       'Freundlicher Blickkontakt und namentliche Begrüßung',
@@ -170,7 +170,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an10',
     frage: 'Wie oft muss die eGK bei gesetzlich Versicherten eingelesen werden?',
-    einfacheErklaerung: '📅 Einmal pro Quartal, also alle drei Monate, reicht in der Regel.',
+    einfacheErklaerung: '📅 Die Karte wird einmal je Quartal, also alle drei Monate, eingelesen. So prüft die Praxis, ob die Versicherung noch gültig ist.',
     merkhilfe: 'Einmal pro Quartal = alle 3 Monate.',
     antworten: [
       'Einmal pro Quartal',
@@ -187,7 +187,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an11',
     frage: 'Was bedeutet es, wenn ein Patient privat versichert ist?',
-    einfacheErklaerung: '💼 Er bekommt eine Rechnung und reicht sie selbst bei seiner Versicherung ein.',
+    einfacheErklaerung: '💼 Privatpatienten bekommen eine Rechnung nach der GOZ und reichen sie selbst bei ihrer Versicherung ein. Die gesetzliche Kasse ist hier nicht beteiligt.',
     merkhilfe: 'Privat = eigene Rechnung.',
     antworten: [
       'Er erhält eine Rechnung nach GOZ',
@@ -204,7 +204,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an12',
     frage: 'Was tun, wenn ein Patient seine Karte vergessen hat?',
-    einfacheErklaerung: '🗂️ Ersatzbeleg oder Nachreichen innerhalb der Frist — nicht einfach abweisen.',
+    einfacheErklaerung: '🗂️ Kein Grund zum Abweisen: Die Karte darf innerhalb des Quartals nachgereicht werden. Alternativ gibt es einen Ersatz- oder Notfallschein.',
     merkhilfe: 'Karte weg? Frist nutzen.',
     antworten: [
       'Karte innerhalb der Quartalsfrist nachreichen lassen',
@@ -221,7 +221,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an13',
     frage: 'Welche Information ist bei einem Notfallpatienten am Telefon zuerst wichtig?',
-    einfacheErklaerung: '📞 Was genau ist passiert und wie stark sind die Beschwerden — um richtig einzuordnen.',
+    einfacheErklaerung: '📞 Zuerst klären, was passiert ist und wie stark die Beschwerden sind. Nur so erkennst du, ob sofort ein Termin nötig ist.',
     merkhilfe: 'Erst Lage klären, dann Termin.',
     antworten: [
       'Art und Schwere der Beschwerden',
@@ -238,7 +238,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an14',
     frage: 'Was ist ein Bonusheft?',
-    einfacheErklaerung: '📗 Ein Nachweis über regelmäßige Kontrollen — bringt später mehr Zuschuss beim Zahnersatz.',
+    einfacheErklaerung: '📗 Es belegt regelmäßige Kontrollen mit Stempel. Ein lückenloses Heft erhöht später den Festzuschuss der Kasse beim Zahnersatz.',
     merkhilfe: 'Volles Heft = mehr Geld dazu.',
     antworten: [
       'Nachweis regelmäßiger Kontrollbesuche',
@@ -255,7 +255,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'an15',
     frage: 'Warum ist der letzte Eindruck bei der Verabschiedung wichtig?',
-    einfacheErklaerung: '👋 Ein freundlicher Abschied bleibt im Gedächtnis und bindet den Patienten an die Praxis.',
+    einfacheErklaerung: '👋 Auch der Abschied bleibt im Kopf und prägt das Gesamtbild. Ein freundliches Verabschieden bindet den Patienten an die Praxis.',
     merkhilfe: 'Letzter Eindruck bleibt hängen.',
     antworten: [
       'Er bleibt dem Patienten in Erinnerung',
@@ -274,7 +274,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy01',
     frage: 'Wie lange dauert die hygienische Händedesinfektion mindestens?',
-    einfacheErklaerung: '🧼 Eine halbe Minute reiben — und die Hände müssen die ganze Zeit feucht bleiben.',
+    einfacheErklaerung: '🧼 30 Sekunden sind nötig, damit das Mittel genug Keime abtötet. Die Hände müssen die ganze Zeit feucht bleiben, sonst wirkt es nicht vollständig.',
     merkhilfe: '30 Sekunden, immer feucht.',
     antworten: [
       '30 Sekunden',
@@ -291,7 +291,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy02',
     frage: 'In welche drei Risikogruppen werden Medizinprodukte eingeteilt?',
-    einfacheErklaerung: '🟢🟡🔴 Denk an drei Eimer: grün, gelb, rot — je tiefer im Körper, desto sauberer.',
+    einfacheErklaerung: '🟢🟡🔴 Denk an drei Eimer: grün berührt Haut, gelb Schleimhaut, rot geht in den Körper. Je tiefer es eindringt, desto strenger die Aufbereitung.',
     merkhilfe: 'Unkritisch - semikritisch - kritisch.',
     antworten: [
       'Unkritisch, semikritisch, kritisch',
@@ -308,7 +308,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy03',
     frage: 'Was ist der Unterschied zwischen Desinfektion und Sterilisation?',
-    einfacheErklaerung: '🦠 Desinfektion tötet die meisten Keime, Sterilisation wirklich ALLE — auch Sporen.',
+    einfacheErklaerung: '🦠 Desinfektion tötet die meisten Keime, Sterilisation wirklich alle, sogar widerstandsfähige Sporen. Darum wird kritisches Besteck immer sterilisiert.',
     merkhilfe: 'Steril = ALLE Keime weg.',
     antworten: [
       'Sterilisation tötet auch Sporen, Desinfektion nicht vollständig',
@@ -325,7 +325,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy04',
     frage: 'Bei welcher Temperatur sterilisiert der Standard-Autoklav meist?',
-    einfacheErklaerung: '♨️ Heißer Dampf bei 134 Grad — wie ein extrem starker Dampfkochtopf.',
+    einfacheErklaerung: '♨️ Der Autoklav arbeitet mit heißem Dampf bei 134 Grad unter Druck, mindestens fünf Minuten. Diese Hitze tötet selbst Sporen ab.',
     merkhilfe: '134 Grad im Dampf.',
     antworten: [
       '134 Grad Celsius',
@@ -342,7 +342,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy05',
     frage: 'In welcher Richtung läuft die Instrumentenaufbereitung?',
-    einfacheErklaerung: '➡️ Immer von unrein nach rein — und nie wieder zurück, sonst verschleppt man Keime.',
+    einfacheErklaerung: '➡️ Die Aufbereitung läuft immer von unrein nach rein und nie zurück. So verschleppst du keine Keime auf die sauberen Instrumente.',
     merkhilfe: 'Von unrein nach rein, nie zurück.',
     antworten: [
       'Von unrein nach rein',
@@ -359,7 +359,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy06',
     frage: 'Was gehört zur persönlichen Schutzausrüstung (PSA)?',
-    einfacheErklaerung: '🥽 Handschuhe, Mundschutz, Schutzbrille und Kittel — dein Schutzpaket.',
+    einfacheErklaerung: '🥽 Handschuhe, Mundschutz, Schutzbrille und Kittel schützen vor Spritzern und Keimen. Die Schutzbrille wird am häufigsten vergessen.',
     merkhilfe: 'Hand - Mund - Auge - Kittel.',
     antworten: [
       'Handschuhe, Mundschutz, Schutzbrille, Kittel',
@@ -376,7 +376,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy07',
     frage: 'Was muss auf einer sterilisierten Verpackung stehen?',
-    einfacheErklaerung: '🏷️ Datum und Chargennummer — damit man weiß, ob es noch steril und rückverfolgbar ist.',
+    einfacheErklaerung: '🏷️ Auf das Sterilgut kommen Datum und Chargennummer. So weißt du, bis wann es haltbar ist, und kannst es später zurückverfolgen.',
     merkhilfe: 'Datum + Charge auf die Tüte.',
     antworten: [
       'Sterilisationsdatum und Chargennummer',
@@ -393,7 +393,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy08',
     frage: 'Wann zieht man die Handschuhe an?',
-    einfacheErklaerung: '🧤 Immer ERST die Hände desinfizieren, DANN die Handschuhe drüber.',
+    einfacheErklaerung: '🧤 Erst die Hände desinfizieren, dann die Handschuhe darüber. Handschuhe über schmutzige Hände würden die Keime nur einschließen.',
     merkhilfe: 'Erst desinfizieren, dann Handschuh.',
     antworten: [
       'Nach der Händedesinfektion',
@@ -410,7 +410,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy09',
     frage: 'Warum sind Ringe und lange Fingernägel bei der Arbeit verboten?',
-    einfacheErklaerung: '💍 Darunter sammeln sich Keime, die man nicht wegdesinfizieren kann.',
+    einfacheErklaerung: '💍 Unter Ringen und langen Nägeln sammeln sich Keime, die keine Desinfektion erreicht. Darum sind sie bei der Arbeit verboten.',
     merkhilfe: 'Unter Ringen wohnen Keime.',
     antworten: [
       'Darunter sammeln sich Keime',
@@ -427,7 +427,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy10',
     frage: 'Was bedeutet "semikritisch"?',
-    einfacheErklaerung: '🟡 Berührt die Schleimhaut, aber verletzt sie nicht — wie der Mundspiegel.',
+    einfacheErklaerung: '🟡 Semikritisch berührt Schleimhaut, ohne sie zu verletzen, wie der Mundspiegel. Solche Teile werden desinfiziert und meist sterilisiert.',
     merkhilfe: 'Semikritisch = berührt Schleimhaut.',
     antworten: [
       'Berührt Schleimhaut ohne sie zu durchdringen',
@@ -444,7 +444,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy11',
     frage: 'Was bedeutet "kritisch" bei Medizinprodukten?',
-    einfacheErklaerung: '🔴 Es durchdringt Haut oder Schleimhaut — wie Kanüle oder Skalpell, muss steril sein.',
+    einfacheErklaerung: '🔴 Kritisch durchdringt Haut oder Schleimhaut, etwa Kanüle oder Skalpell. Diese müssen immer steril sein, weil sie direkt ins Gewebe gelangen.',
     merkhilfe: 'Kritisch = geht rein in den Körper.',
     antworten: [
       'Durchdringt Haut oder Schleimhaut',
@@ -461,7 +461,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy12',
     frage: 'Wann wird das Behandlungszimmer gelüftet?',
-    einfacheErklaerung: '🪟 Am ENDE der Aufbereitung, nicht am Anfang.',
+    einfacheErklaerung: '🪟 Erst Flächen wischen und Instrumente versorgen, dann lüften. Lüftest du zuerst, wirbelst du Keime auf die frisch gereinigten Flächen.',
     merkhilfe: 'Lüften kommt zuletzt.',
     antworten: [
       'Am Ende der Aufbereitung',
@@ -478,7 +478,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy13',
     frage: 'Was prüft ein Bowie-Dick-Test oder Helix-Test?',
-    einfacheErklaerung: '🧪 Ob der Dampf im Autoklav richtig überall hinkommt — eine Kontrolle der Sterilisation.',
+    einfacheErklaerung: '🧪 Diese Tests prüfen, ob der heiße Dampf wirklich überall im Autoklav ankommt. Nur dann ist die Sterilisation sicher.',
     merkhilfe: 'Test = kommt der Dampf überall hin?',
     antworten: [
       'Die Dampfdurchdringung im Sterilisator',
@@ -495,7 +495,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy14',
     frage: 'Was ist eine Flächendesinfektion?',
-    einfacheErklaerung: '🧴 Das Abwischen von Oberflächen mit Desinfektionsmittel, z. B. der Behandlungseinheit.',
+    einfacheErklaerung: '🧴 Oberflächen wie Stuhl und Griffe werden abgewischt. Wichtig ist die Einwirkzeit auf der Flasche, sonst sind nicht alle Keime tot.',
     merkhilfe: 'Flächen wischen mit Einwirkzeit.',
     antworten: [
       'Desinfektion von Oberflächen mit Einwirkzeit',
@@ -512,7 +512,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'hy15',
     frage: 'Was ist ein unkritisches Medizinprodukt?',
-    einfacheErklaerung: '🟢 Es berührt nur die intakte, heile Haut — wie die Blutdruckmanschette.',
+    einfacheErklaerung: '🟢 Unkritisch berührt nur die heile, intakte Haut, zum Beispiel die Blutdruckmanschette. Reinigen und desinfizieren reicht hier aus.',
     merkhilfe: 'Unkritisch = nur heile Haut.',
     antworten: [
       'Es berührt nur intakte Haut',
@@ -531,7 +531,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be01',
     frage: 'Welche Instrumente bilden das zahnärztliche Grundbesteck?',
-    einfacheErklaerung: '🪞 Spiegel, Sonde und Pinzette — die drei sind bei fast jeder Behandlung dabei.',
+    einfacheErklaerung: '🪞 Mundspiegel, Sonde und Pinzette liegen bei fast jeder Behandlung bereit. Mit ihnen schaut, tastet und greift der Zahnarzt.',
     merkhilfe: 'Spiegel - Sonde - Pinzette.',
     antworten: [
       'Mundspiegel, Sonde, Pinzette',
@@ -548,7 +548,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be02',
     frage: 'Wozu dient der Mundspiegel?',
-    einfacheErklaerung: '🪞 Zum Sehen um die Ecke, Abhalten der Wange und mehr Licht im Mund.',
+    einfacheErklaerung: '🪞 Er zeigt versteckte Stellen um die Ecke, hält Wange und Zunge ab und lenkt Licht in den Mund. Ein Werkzeug mit drei Aufgaben.',
     merkhilfe: 'Sehen, halten, Licht lenken.',
     antworten: [
       'Sicht verschaffen, Weichteile abhalten, Licht lenken',
@@ -565,7 +565,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be03',
     frage: 'Was bedeutet "Arbeiten zu vier Händen"?',
-    einfacheErklaerung: '🤝 Zahnarzt und Assistenz arbeiten gleichzeitig Hand in Hand am Patienten.',
+    einfacheErklaerung: '🤝 Zahnarzt und Assistenz arbeiten gleichzeitig: er behandelt, du reichst an und saugst ab. Das spart Zeit und hält das Feld trocken.',
     merkhilfe: 'Zwei Personen, vier Hände, ein Team.',
     antworten: [
       'Zahnarzt und Assistenz arbeiten gleichzeitig zusammen',
@@ -582,7 +582,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be04',
     frage: 'Wozu dient der große chirurgische Sauger?',
-    einfacheErklaerung: '💧 Er saugt Blut, Speichel und Wasser ab, damit der Zahnarzt freie Sicht hat.',
+    einfacheErklaerung: '💧 Er saugt Speichel, Blut und Kühlwasser weg, damit der Zahnarzt freie Sicht hat. Ohne Sauger läuft der Mund schnell voll.',
     merkhilfe: 'Sauger = trockenes Arbeitsfeld.',
     antworten: [
       'Absaugen von Speichel, Blut und Kühlwasser',
@@ -599,7 +599,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be05',
     frage: 'Warum braucht eine Wurzelbehandlung oft zwei Trays?',
-    einfacheErklaerung: '🔵🔴 Ein steriles und ein unsteriles Tray werden getrennt, damit keine Keime in den Kanal kommen.',
+    einfacheErklaerung: '🔵🔴 Steril und unsteril werden auf zwei Trays getrennt. So gelangen beim Wurzelkanal keine Keime aus der Vorbereitung in den Kanal.',
     merkhilfe: 'Zwei Trays = steril und unsteril trennen.',
     antworten: [
       'Um steriles und unsteriles Material zu trennen',
@@ -616,7 +616,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be06',
     frage: 'Was ist ein Kofferdam?',
-    einfacheErklaerung: '🟦 Ein Gummituch, das den Zahn trocken hält und vor Verschlucken schützt.',
+    einfacheErklaerung: '🟦 Ein Gummituch spannt nur den Zahn frei und hält Speichel weg. Es schützt auch davor, dass der Patient kleine Teile verschluckt.',
     merkhilfe: 'Gummituch = trocken und sicher.',
     antworten: [
       'Ein Gummituch zur Trockenlegung des Zahns',
@@ -633,7 +633,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be07',
     frage: 'Wozu dient die Polymerisationslampe?',
-    einfacheErklaerung: '💡 Das blaue Licht härtet die Kunststofffüllung Schicht für Schicht aus.',
+    einfacheErklaerung: '💡 Ihr blaues Licht härtet den Kunststoff Schicht für Schicht aus. Erst dann ist die Füllung fest und belastbar.',
     merkhilfe: 'Blaues Licht = Füllung wird hart.',
     antworten: [
       'Zum Aushärten von Kompositfüllungen',
@@ -650,7 +650,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be08',
     frage: 'Was ist Guttapercha?',
-    einfacheErklaerung: '🌳 Ein gummiartiges Naturmaterial, mit dem Wurzelkanäle dicht gefüllt werden.',
+    einfacheErklaerung: '🌳 Ein gummiartiges Naturmaterial, das den gereinigten Wurzelkanal dicht verschließt. So können keine Bakterien zurückkehren.',
     merkhilfe: 'Guttapercha füllt den Wurzelkanal.',
     antworten: [
       'Ein Material zum Füllen von Wurzelkanälen',
@@ -667,7 +667,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be09',
     frage: 'Welche Aufgabe hat die Pinzette im Grundbesteck?',
-    einfacheErklaerung: '🤏 Zum Greifen und Transportieren kleiner Dinge wie Watte oder Tupfer.',
+    einfacheErklaerung: '🤏 Zum sicheren Greifen kleiner Teile wie Watterollen oder Tupfer. Mit den Fingern wäre das unsteril und ungenau.',
     merkhilfe: 'Pinzette = greifen und transportieren.',
     antworten: [
       'Kleine Teile greifen und transportieren',
@@ -684,7 +684,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be10',
     frage: 'Wozu dient die Sonde im Grundbesteck?',
-    einfacheErklaerung: '🔍 Zum Ertasten von rauen Stellen, Karies oder Belägen auf dem Zahn.',
+    einfacheErklaerung: '🔍 Mit der feinen Spitze ertastet der Zahnarzt raue Stellen, Karies und Füllungsränder. Sie ist sein verlängerter Tastsinn.',
     merkhilfe: 'Sonde = ertasten und prüfen.',
     antworten: [
       'Zum Ertasten von Oberflächen und Defekten',
@@ -701,7 +701,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be11',
     frage: 'Was bedeutet die Abkürzung PSA?',
-    einfacheErklaerung: '🦺 Persönliche Schutzausrüstung — alles, was dich bei der Arbeit schützt.',
+    einfacheErklaerung: '🦺 PSA steht für Persönliche Schutzausrüstung: Handschuhe, Maske, Brille, Kittel. Sie trennt dich von Keimen und Spritzern.',
     merkhilfe: 'PSA = Persönliche SchutzAusrüstung.',
     antworten: [
       'Persönliche Schutzausrüstung',
@@ -718,7 +718,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be12',
     frage: 'Was reicht man dem Zahnarzt zum Nähen?',
-    einfacheErklaerung: '🪡 Nadelhalter und Faden — damit kann er die Wunde verschließen.',
+    einfacheErklaerung: '🪡 Zum Wundverschluss reichst du Nadelhalter und Faden an. Die Naht hält die Wundränder zusammen, damit es sauber heilt.',
     merkhilfe: 'Nadelhalter + Faden = nähen.',
     antworten: [
       'Nadelhalter und Nahtmaterial',
@@ -735,7 +735,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be13',
     frage: 'Was ist beim Anreichen von Instrumenten wichtig?',
-    einfacheErklaerung: '🤲 Griffbereit und in Arbeitsrichtung anreichen, ohne dem Zahnarzt die Sicht zu nehmen.',
+    einfacheErklaerung: '🤲 Instrumente werden griffbereit in Arbeitsrichtung gereicht. So muss der Zahnarzt den Blick nicht vom Mund nehmen.',
     merkhilfe: 'Griffbereit, ohne Blickwechsel.',
     antworten: [
       'Griffbereit in Arbeitsposition anreichen',
@@ -752,7 +752,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be14',
     frage: 'Was ist eine Abformung (Abdruck)?',
-    einfacheErklaerung: '🦷 Ein Negativ-Abdruck der Zähne, aus dem das Labor ein Modell gießt.',
+    einfacheErklaerung: '🦷 Ein Abdruck ist ein Negativ der Zähne. Daraus gießt das Labor ein Gipsmodell, auf dem Krone oder Prothese gebaut werden.',
     merkhilfe: 'Abdruck = Negativ für das Modell.',
     antworten: [
       'Ein Negativ der Zähne für ein Gipsmodell',
@@ -769,7 +769,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'be15',
     frage: 'Warum wird beim Bohren mit Wasser gekühlt?',
-    einfacheErklaerung: '🌡️ Damit der Zahn nicht überhitzt und der Nerv keinen Schaden nimmt.',
+    einfacheErklaerung: '🌡️ Der Bohrer erzeugt Hitze, die den Zahnnerv schädigen könnte. Das Wasser kühlt und spült zugleich die Bohrspäne weg.',
     merkhilfe: 'Kühlen schützt den Nerv.',
     antworten: [
       'Um Überhitzung des Zahns zu vermeiden',
@@ -788,7 +788,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na01',
     frage: 'Welche Kanüle nutzt man für die Leitungsanästhesie?',
-    einfacheErklaerung: '💉 Die LANGE Kanüle — sie muss tief bis zum Nervenast im Unterkiefer.',
+    einfacheErklaerung: '💉 Die Leitungsanästhesie betäubt einen ganzen Nervenast tief im Unterkiefer. Der Weg dahin ist lang, darum die lange Kanüle.',
     merkhilfe: 'Lange Leitung, lange Kanüle.',
     antworten: [
       'Die lange Kanüle',
@@ -805,7 +805,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na02',
     frage: 'Welche Kanüle nutzt man für die Infiltrationsanästhesie?',
-    einfacheErklaerung: '💉 Die KURZE Kanüle — der Weg zum einzelnen Zahn ist kurz, meist im Oberkiefer.',
+    einfacheErklaerung: '💉 Die Infiltration betäubt nur einen einzelnen Zahn, meist im Oberkiefer. Der Weg ist kurz, darum die kurze Kanüle.',
     merkhilfe: 'Kurzer Weg, kurze Kanüle.',
     antworten: [
       'Die kurze Kanüle',
@@ -822,7 +822,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na03',
     frage: 'Was bewirkt der Adrenalinzusatz im Betäubungsmittel?',
-    einfacheErklaerung: '🩸 Es verengt die Gefäße — die Betäubung hält länger und es blutet weniger.',
+    einfacheErklaerung: '🩸 Adrenalin zieht die Gefäße eng. Dadurch bleibt das Mittel länger am Ort, die Betäubung hält länger und es blutet weniger.',
     merkhilfe: 'Adrenalin = enger, länger, weniger Blut.',
     antworten: [
       'Gefäße verengen, längere Wirkung, weniger Blutung',
@@ -839,7 +839,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na04',
     frage: 'Was ist eine Oberflächenanästhesie?',
-    einfacheErklaerung: '🧴 Ein Gel oder Spray auf der Schleimhaut, damit der Nadelstich kaum spürbar ist.',
+    einfacheErklaerung: '🧴 Gel oder Spray betäubt nur die obere Schleimhaut. So spürt der Patient den Nadeleinstich kaum noch.',
     merkhilfe: 'Gel oben drauf vor dem Stich.',
     antworten: [
       'Betäubung der Schleimhautoberfläche mit Gel/Spray',
@@ -856,7 +856,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na05',
     frage: 'Welcher Wirkstoff wird häufig zur Lokalanästhesie verwendet?',
-    einfacheErklaerung: '💊 Articain ist heute Standard in der Zahnarztpraxis.',
+    einfacheErklaerung: '💊 Articain ist heute das Standard-Betäubungsmittel, oft mit Adrenalin kombiniert. Es wirkt schnell und zuverlässig.',
     merkhilfe: 'Articain = der Klassiker.',
     antworten: [
       'Articain',
@@ -873,7 +873,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na06',
     frage: 'Wo wird die Leitungsanästhesie meist gesetzt?',
-    einfacheErklaerung: '🦷 Im Unterkiefer hinten, weil der Knochen dort dicht ist und eine einzelne Spritze nicht reicht.',
+    einfacheErklaerung: '🦷 Der Unterkieferknochen ist dicht, eine einzelne Spritze reicht nicht hindurch. Darum betäubt man dort gleich den ganzen Nervenast.',
     merkhilfe: 'Leitung = Unterkiefer.',
     antworten: [
       'Im Unterkiefer',
@@ -890,7 +890,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na07',
     frage: 'Was sollte der Patient nach der Betäubung beachten?',
-    einfacheErklaerung: '😬 Nicht auf die taube Lippe oder Wange beißen, bis das Gefühl zurück ist.',
+    einfacheErklaerung: '😬 Solange die Lippe taub ist, spürt der Patient keinen Schmerz und beißt sich leicht unbemerkt wund. Darum vorher darauf hinweisen.',
     merkhilfe: 'Taub = nicht draufbeißen.',
     antworten: [
       'Nicht auf die taube Stelle beißen',
@@ -907,7 +907,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na08',
     frage: 'Warum ist bei Herzpatienten Vorsicht mit Adrenalin geboten?',
-    einfacheErklaerung: '❤️ Adrenalin kann den Puls und Blutdruck steigern — das kann das Herz belasten.',
+    einfacheErklaerung: '❤️ Adrenalin kann Puls und Blutdruck hochtreiben. Bei Herzpatienten wählt man darum weniger oder gar kein Adrenalin.',
     merkhilfe: 'Adrenalin treibt das Herz an.',
     antworten: [
       'Es kann Puls und Blutdruck erhöhen',
@@ -924,7 +924,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na09',
     frage: 'Wie reicht man die vorbereitete Spritze an?',
-    einfacheErklaerung: '🔒 Mit aufgesetzter Schutzkappe und so, dass der Zahnarzt sie sicher greifen kann.',
+    einfacheErklaerung: '🔒 Die fertige Spritze wird mit Schutzkappe und griffbereit gereicht. Das verhindert gefährliche Stichverletzungen.',
     merkhilfe: 'Sicher und mit Kappe anreichen.',
     antworten: [
       'Sicher, mit Schutzkappe, griffbereit',
@@ -941,7 +941,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'na10',
     frage: 'Was ist eine Infiltrationsanästhesie?',
-    einfacheErklaerung: '🎯 Eine Betäubung direkt am einzelnen Zahn, das Mittel sickert in den Knochen ein.',
+    einfacheErklaerung: '🎯 Das Mittel wird direkt neben den Zahn gespritzt und sickert in den Knochen. So wird gezielt nur dieser eine Zahn taub.',
     merkhilfe: 'Infiltration = ein Zahn, direkt daneben.',
     antworten: [
       'Betäubung eines einzelnen Zahns am Einstichort',
@@ -960,7 +960,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch01',
     frage: 'Was bedeutet Extraktion?',
-    einfacheErklaerung: '🦷 Das Ziehen eines Zahnes.',
+    einfacheErklaerung: '🦷 Extraktion heißt, einen Zahn zu ziehen. Sie ist nötig, wenn ein Zahn nicht mehr zu retten ist.',
     merkhilfe: 'Extraktion = Zahn raus.',
     antworten: [
       'Das Entfernen eines Zahns',
@@ -977,7 +977,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch02',
     frage: 'Welches Instrument dient zum Lösen eines Zahns vor der Extraktion?',
-    einfacheErklaerung: '🔧 Der Hebel (Elevator) lockert den Zahn aus dem Knochen.',
+    einfacheErklaerung: '🔧 Der Hebel lockert den Zahn aus dem Knochen, ähnlich wie ein Hebel einen Pfosten löst. Erst dann greift die Zange leicht.',
     merkhilfe: 'Hebel hebelt den Zahn locker.',
     antworten: [
       'Der Hebel (Elevator)',
@@ -994,7 +994,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch03',
     frage: 'Womit wird ein Zahn schließlich gezogen?',
-    einfacheErklaerung: '🦷 Mit der Zange — für jeden Zahn gibt es eine passende Form.',
+    einfacheErklaerung: '🦷 Mit der passenden Zange wird der gelockerte Zahn herausgezogen. Für jeden Zahn gibt es eine eigene Zangenform.',
     merkhilfe: 'Zange zieht, passend zum Zahn.',
     antworten: [
       'Mit der Extraktionszange',
@@ -1011,7 +1011,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch04',
     frage: 'Was steht in der Merkhilfe A-M-I-W-L für die Nachbereitung?',
-    einfacheErklaerung: '📝 Aufklären, Medikamente, Instrumente, Wunde, Lüften — die saubere Reihenfolge nach dem Eingriff.',
+    einfacheErklaerung: '📝 Merkwort für die Nachbereitung: Aufklären, Medikamente, Instrumente, Wunde, Lüften. So vergisst du keinen Schritt nach dem Eingriff.',
     merkhilfe: 'A-M-I-W-L: Aufklären, Medikamente, Instrumente, Wunde, Lüften.',
     antworten: [
       'Aufklären, Medikamente, Instrumente, Wunde, Lüften',
@@ -1028,7 +1028,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch05',
     frage: 'Was darf der Patient direkt nach einer Extraktion NICHT tun?',
-    einfacheErklaerung: '🚫 Nicht spülen, keinen Kaffee, kein Sport, kein Rauchen — sonst löst sich das Blutgerinnsel.',
+    einfacheErklaerung: '🚫 Kräftiges Spülen, Rauchen, Kaffee und Sport können das Blutgerinnsel herausspülen. Dann heilt die Wunde schlecht und schmerzt.',
     merkhilfe: 'Nicht spülen, das Gerinnsel schützen.',
     antworten: [
       'Kräftig spülen und rauchen',
@@ -1045,7 +1045,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch06',
     frage: 'Warum lässt man den Patienten nach der Extraktion auf einen Tupfer beißen?',
-    einfacheErklaerung: '🩹 Der Druck stoppt die Blutung und hilft, dass sich ein Blutgerinnsel bildet.',
+    einfacheErklaerung: '🩹 Das Aufbeißen drückt auf die Wunde und stillt so die Blutung. Der Druck hilft, dass sich ein schützendes Gerinnsel bildet.',
     merkhilfe: 'Druck stoppt Blut.',
     antworten: [
       'Druck stillt die Blutung',
@@ -1062,7 +1062,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch07',
     frage: 'Was ist eine Naht in der Zahnchirurgie?',
-    einfacheErklaerung: '🪡 Ein Faden, der die Wundränder zusammenhält, damit es gut heilt.',
+    einfacheErklaerung: '🪡 Der Faden hält die Wundränder zusammen, damit nichts aufklafft. So heilt die Wunde geschützt und schneller.',
     merkhilfe: 'Naht hält die Wunde zu.',
     antworten: [
       'Verschluss der Wunde mit Faden',
@@ -1079,7 +1079,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch08',
     frage: 'Warum kühlt man nach einem chirurgischen Eingriff von außen?',
-    einfacheErklaerung: '❄️ Kälte verringert die Schwellung und lindert den Schmerz.',
+    einfacheErklaerung: '❄️ Kälte von außen verengt die Gefäße und bremst die Schwellung. Das lindert zugleich den Schmerz nach dem Eingriff.',
     merkhilfe: 'Kühlen gegen Schwellung.',
     antworten: [
       'Um Schwellung und Schmerz zu reduzieren',
@@ -1096,7 +1096,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch09',
     frage: 'Was ist beim chirurgischen Tray besonders wichtig?',
-    einfacheErklaerung: '✨ Alles muss steril sein — bei Chirurgie kommt man in tiefes Gewebe.',
+    einfacheErklaerung: '✨ Bei Chirurgie wird Gewebe durchtrennt, darum muss alles steril sein. Schon ein unsteriles Teil könnte die Wunde infizieren.',
     merkhilfe: 'Chirurgie = steril, steril, steril.',
     antworten: [
       'Alle Instrumente sind steril',
@@ -1113,7 +1113,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ch10',
     frage: 'Was ist ein "trockener Kiefer" (Alveolitis)?',
-    einfacheErklaerung: '⚠️ Eine schmerzhafte Wundheilungsstörung, wenn sich das Blutgerinnsel zu früh löst.',
+    einfacheErklaerung: '⚠️ Löst sich das Blutgerinnsel zu früh, liegt der Knochen frei und entzündet sich. Diese trockene Alveole tut sehr weh.',
     merkhilfe: 'Gerinnsel weg = trockene, schmerzende Wunde.',
     antworten: [
       'Eine Wundheilungsstörung nach Zahnverlust',
@@ -1132,7 +1132,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka01',
     frage: 'Wie entsteht Karies?',
-    einfacheErklaerung: '🍬 Bakterien machen aus Zucker Säure, und die Säure löst den Zahnschmelz auf.',
+    einfacheErklaerung: '🍬 Bakterien im Belag machen aus Zucker Säure. Diese Säure löst den harten Zahnschmelz auf, so entsteht das Loch.',
     merkhilfe: 'Zucker + Bakterien = Säure = Loch.',
     antworten: [
       'Bakterien bilden aus Zucker Säure, die den Schmelz auflöst',
@@ -1149,7 +1149,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka02',
     frage: 'In welcher Reihenfolge schreitet Karies in die Tiefe voran?',
-    einfacheErklaerung: '🦷 Erst Schmelz, dann Dentin, dann der Nerv (Pulpa) — von außen nach innen.',
+    einfacheErklaerung: '🦷 Karies frisst sich von außen nach innen: erst Schmelz, dann Dentin, zuletzt bis zur Pulpa. Je tiefer, desto schmerzhafter.',
     merkhilfe: 'Schmelz - Dentin - Pulpa.',
     antworten: [
       'Schmelz, Dentin, Pulpa',
@@ -1166,7 +1166,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka03',
     frage: 'Was ist Komposit?',
-    einfacheErklaerung: '🦷 Ein zahnfarbener Kunststoff für Füllungen — sieht aus wie echter Zahn.',
+    einfacheErklaerung: '🦷 Ein zahnfarbener Kunststoff, der wie echter Zahn aussieht. Er wird weich eingebracht und mit Licht ausgehärtet.',
     merkhilfe: 'Komposit = zahnfarbener Kunststoff.',
     antworten: [
       'Ein zahnfarbenes Füllungsmaterial aus Kunststoff',
@@ -1183,7 +1183,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka04',
     frage: 'Warum muss der Zahn für eine Kompositfüllung trocken sein?',
-    einfacheErklaerung: '💧 Speichel verhindert, dass die Füllung hält — Trockenheit ist Pflicht.',
+    einfacheErklaerung: '💧 Komposit klebt nur auf trockenem Zahn. Schon etwas Speichel verhindert die Haftung, darum wird der Zahn trockengelegt.',
     merkhilfe: 'Speichel ist der Feind der Füllung.',
     antworten: [
       'Speichel verhindert die Haftung der Füllung',
@@ -1200,7 +1200,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka05',
     frage: 'Was bewirkt das Ätzgel bei der Füllungstherapie?',
-    einfacheErklaerung: '🔬 Es macht den Schmelz mikroskopisch rau, damit der Kleber gut haftet.',
+    einfacheErklaerung: '🔬 Das Säuregel macht den glatten Schmelz mikroskopisch rau. Auf der rauen Fläche hält der Kleber viel besser.',
     merkhilfe: 'Ätzen macht rau für besseren Halt.',
     antworten: [
       'Es raut den Schmelz für besseren Halt auf',
@@ -1217,7 +1217,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka06',
     frage: 'Was ist Bonding?',
-    einfacheErklaerung: '🧴 Der Haftvermittler — ein Kleber zwischen Zahn und Füllung.',
+    einfacheErklaerung: '🧴 Bonding ist der Haftvermittler zwischen Zahn und Füllung. Ohne diesen Kleber würde das Komposit nicht halten.',
     merkhilfe: 'Bonding = der Kleber.',
     antworten: [
       'Ein Haftvermittler (Kleber) zwischen Zahn und Komposit',
@@ -1234,7 +1234,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka07',
     frage: 'Womit wird eine Kompositfüllung ausgehärtet?',
-    einfacheErklaerung: '💡 Mit blauem Licht aus der Polymerisationslampe.',
+    einfacheErklaerung: '💡 Das blaue Licht der Polymerisationslampe macht den Kunststoff hart. Gehärtet wird in dünnen Schichten.',
     merkhilfe: 'Blaulicht härtet aus.',
     antworten: [
       'Mit der Polymerisationslampe (blaues Licht)',
@@ -1251,7 +1251,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'ka08',
     frage: 'Was prüft man nach dem Legen einer Füllung?',
-    einfacheErklaerung: '😁 Den Biss — die Füllung darf nicht zu hoch sein, sonst stört sie beim Zubeißen.',
+    einfacheErklaerung: '😁 Zum Schluss wird die Okklusion, also der Biss, geprüft. Steht die Füllung zu hoch, tut das Zubeißen weh.',
     merkhilfe: 'Biss prüfen, nicht zu hoch.',
     antworten: [
       'Ob der Biss passt (Okklusion)',
@@ -1270,7 +1270,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'pa01',
     frage: 'Was ist Plaque?',
-    einfacheErklaerung: '🦠 Der weiche, bakterielle Zahnbelag — den kann man noch wegputzen.',
+    einfacheErklaerung: '🦠 Plaque ist der weiche, klebrige Bakterienbelag auf den Zähnen. Frisch lässt er sich noch wegputzen.',
     merkhilfe: 'Plaque = weicher Belag, wegputzbar.',
     antworten: [
       'Weicher bakterieller Zahnbelag',
@@ -1287,7 +1287,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'pa02',
     frage: 'Was passiert, wenn Plaque lange liegen bleibt?',
-    einfacheErklaerung: '🪨 Sie verhärtet zu Zahnstein, den man nur noch in der Praxis entfernen kann.',
+    einfacheErklaerung: '🪨 Bleibt Plaque liegen, verhärtet sie mit Mineralien zu Zahnstein. Den bekommt nur die Praxis wieder ab.',
     merkhilfe: 'Plaque hart = Zahnstein.',
     antworten: [
       'Sie wird zu hartem Zahnstein',
@@ -1304,7 +1304,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'pa03',
     frage: 'Was ist eine Gingivitis?',
-    einfacheErklaerung: '🩸 Eine Zahnfleischentzündung — das Zahnfleisch ist rot und blutet, aber noch heilbar.',
+    einfacheErklaerung: '🩸 Die Zahnfleischentzündung zeigt sich durch Rötung und Blutung beim Putzen. Mit guter Pflege ist sie noch umkehrbar.',
     merkhilfe: 'Gingivitis = Zahnfleisch entzündet, heilbar.',
     antworten: [
       'Eine umkehrbare Zahnfleischentzündung',
@@ -1321,7 +1321,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'pa04',
     frage: 'Was unterscheidet Parodontitis von Gingivitis?',
-    einfacheErklaerung: '🦴 Bei der Parodontitis baut sich auch der Knochen ab — das ist nicht mehr umkehrbar.',
+    einfacheErklaerung: '🦴 Bei der Parodontitis greift die Entzündung auf den Knochen über und baut ihn ab. Anders als die Gingivitis ist das nicht mehr umkehrbar.',
     merkhilfe: 'Parodontitis = Knochen geht verloren.',
     antworten: [
       'Bei Parodontitis baut sich der Knochen ab',
@@ -1338,7 +1338,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'pa05',
     frage: 'Womit misst man die Tiefe der Zahnfleischtaschen?',
-    einfacheErklaerung: '📏 Mit der PAR-Sonde, die in Millimetern markiert ist.',
+    einfacheErklaerung: '📏 Mit der millimetergenauen PAR-Sonde misst man die Tiefe der Zahnfleischtaschen. Das zeigt, wie weit die Erkrankung fortgeschritten ist.',
     merkhilfe: 'PAR-Sonde misst die Tasche.',
     antworten: [
       'Mit der Parodontalsonde (PAR-Sonde)',
@@ -1355,7 +1355,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'pa06',
     frage: 'Ab welcher Taschentiefe spricht man üblicherweise von einer Tasche?',
-    einfacheErklaerung: '📏 Ab etwa 4 Millimetern wird es kritisch.',
+    einfacheErklaerung: '📏 Ab etwa vier Millimetern spricht man von einer behandlungsbedürftigen Tasche. Tief darin sitzen die schädlichen Bakterien.',
     merkhilfe: 'Ab 4 mm = Tasche.',
     antworten: [
       'Ab etwa 4 Millimetern',
@@ -1372,7 +1372,7 @@ const List<QuizFrage> alleQuizFragen = [
   QuizFrage(
     id: 'pa07',
     frage: 'Was ist nach einer PAR-Behandlung besonders wichtig?',
-    einfacheErklaerung: '🪥 Gute Mundhygiene zu Hause und regelmäßige Nachsorge, damit es nicht zurückkommt.',
+    einfacheErklaerung: '🪥 Nach der Behandlung entscheidet die Pflege zu Hause über den Erfolg. Regelmäßige Nachsorge verhindert ein Wiederaufflammen.',
     merkhilfe: 'Nachsorge + Putzen halten es weg.',
     antworten: [
       'Gute häusliche Mundhygiene und Nachsorge',

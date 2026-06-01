@@ -22,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _beantwortet = false;
   int _punkteSession = 0;
   int _richtigInFolge = 0;
+  late List<int> _antwortReihenfolge; // gemischte Anzeige-Reihenfolge
   late ConfettiController _confetti;
 
   @override
@@ -49,6 +50,15 @@ class _QuizScreenState extends State<QuizScreen> {
       return aBox - bBox;
     });
     _fragen = pool.take(10).toList();
+    _mischen();
+  }
+
+  // Mischt die Antwortreihenfolge der aktuellen Frage, damit die richtige
+  // Antwort nicht immer an derselben Stelle steht.
+  void _mischen() {
+    if (_fragen.isEmpty) return;
+    _antwortReihenfolge =
+        List.generate(_fragen[_index].antworten.length, (i) => i)..shuffle();
   }
 
   void _antworten(int i) {
@@ -81,6 +91,7 @@ class _QuizScreenState extends State<QuizScreen> {
         _index++;
         _gewaehlt = null;
         _beantwortet = false;
+        _mischen();
       });
     } else {
       _zeigeEnde();
@@ -245,7 +256,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     ],
                     const SizedBox(height: 16),
                     // Antworten
-                    ...List.generate(frage.antworten.length, (i) {
+                    ...List.generate(frage.antworten.length, (pos) {
+                      final i = _antwortReihenfolge[pos];
                       return _AntwortButton(
                         text: frage.antworten[i],
                         zustand: _buttonZustand(i, frage),

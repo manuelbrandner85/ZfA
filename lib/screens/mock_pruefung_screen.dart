@@ -24,7 +24,13 @@ class _MockPruefungScreenState extends State<MockPruefungScreen> {
   int? _gewaehlt;
   bool _fertig = false;
   final List<QuizFrage> _falscheFragen = [];
+  late List<int> _antwortReihenfolge; // gemischte Anzeige-Reihenfolge
   late ConfettiController _confetti;
+
+  void _mischen() {
+    _antwortReihenfolge =
+        List.generate(_fragen[_index].antworten.length, (i) => i)..shuffle();
+  }
 
   @override
   void initState() {
@@ -32,6 +38,7 @@ class _MockPruefungScreenState extends State<MockPruefungScreen> {
     _confetti = ConfettiController(duration: const Duration(seconds: 2));
     final pool = alleQuizFragen.toList()..shuffle();
     _fragen = pool.take(_anzahl).toList();
+    _mischen();
   }
 
   void _antworten(int i) {
@@ -56,6 +63,7 @@ class _MockPruefungScreenState extends State<MockPruefungScreen> {
         setState(() {
           _index++;
           _gewaehlt = null;
+          _mischen();
         });
       } else {
         setState(() => _fertig = true);
@@ -123,7 +131,8 @@ class _MockPruefungScreenState extends State<MockPruefungScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                ...List.generate(frage.antworten.length, (i) {
+                ...List.generate(frage.antworten.length, (pos) {
+                  final i = _antwortReihenfolge[pos];
                   Color bg = Colors.white;
                   Color border = const Color(0xFFE0E0E0);
                   if (_gewaehlt != null) {
@@ -271,6 +280,7 @@ class _MockPruefungScreenState extends State<MockPruefungScreen> {
                     _gewaehlt = null;
                     _fertig = false;
                     _falscheFragen.clear();
+                    _mischen();
                   });
                 },
                 style: ElevatedButton.styleFrom(

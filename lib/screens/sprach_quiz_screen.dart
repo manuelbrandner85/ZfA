@@ -26,7 +26,13 @@ class _SprachQuizScreenState extends State<SprachQuizScreen> {
   bool _mikrofonVerfuegbar = true;
   Color _flash = Colors.transparent;
   int? _gewaehlt;
+  late List<int> _mcReihenfolge; // gemischte Antwortreihenfolge
   late ConfettiController _confetti;
+
+  void _mischen() {
+    _mcReihenfolge =
+        List.generate(_fragen[_index].antworten.length, (i) => i)..shuffle();
+  }
 
   @override
   void initState() {
@@ -38,6 +44,7 @@ class _SprachQuizScreenState extends State<SprachQuizScreen> {
         .toList()
       ..shuffle();
     _fragen = _fragen.take(10).toList();
+    _mischen();
 
     _stt.onTextAendert = (t) {
       if (mounted) setState(() => _erkannt = t);
@@ -124,6 +131,7 @@ class _SprachQuizScreenState extends State<SprachQuizScreen> {
         _richtig = null;
         _gewaehlt = null;
         _multipleChoice = !_mikrofonVerfuegbar;
+        _mischen();
       });
       _frageVorlesen();
     } else {
@@ -255,7 +263,8 @@ class _SprachQuizScreenState extends State<SprachQuizScreen> {
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
-                          ...List.generate(frage.antworten.length, (i) {
+                          ...List.generate(frage.antworten.length, (pos) {
+                            final i = _mcReihenfolge[pos];
                             Color bg = Colors.white;
                             Color border = const Color(0xFFCE93D8);
                             if (_ausgewertet) {
