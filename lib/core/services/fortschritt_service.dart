@@ -11,6 +11,10 @@ class FortschrittService {
   Map<String, int> sm2Faellig = {}; // nächste Fälligkeit (Unix-ms)
   // --- Readiness-Verlauf (Datum yyyymmdd -> Score 0..100) ---
   Map<String, int> readinessVerlauf = {};
+  // --- Gamification: Wochen-XP (Liga) + freigeschaltete Abzeichen ---
+  int wochenXp = 0;
+  String _woche = '';
+  Set<String> abzeichen = {};
 
   // Gelöste Quiz-IDs
   Set<String> geloesteFragen = {};
@@ -111,7 +115,39 @@ class FortschrittService {
     sm2Faellig = _ladeIntMap('sm2_due');
     readinessVerlauf = _ladeIntMap('readiness', sep: '::');
 
+    wochenXp = _prefs.getInt('wochen_xp') ?? 0;
+    _woche = _prefs.getString('woche') ?? '';
+    abzeichen = (_prefs.getStringList('abzeichen') ?? []).toSet();
+    final aktuelleWoche = _wocheSchluessel(DateTime.now());
+    if (_woche != aktuelleWoche) {
+      _woche = aktuelleWoche;
+      wochenXp = 0; // neue Woche, Liga startet neu
+    }
+
     _tagPruefen(); // ggf. Tageszähler zurücksetzen
+  }
+
+  String _wocheSchluessel(DateTime d) {
+    final tagImJahr = int.parse(
+        '${d.difference(DateTime(d.year, 1, 1)).inDays}');
+    return '${d.year}-W${(tagImJahr / 7).floor()}';
+  }
+
+  // ---- Tages-Lernplan bis zur Prüfung ----
+  /// Empfohlene Themen für heute (schwächste zuerst) + Wiederholung.
+  List<String> tagesPlan() {
+    final sortiert = [...hauptBereiche];
+    sortiert.sort((a, b) {
+      final ga = bereichGesamt[a] ?? 0, gb = bereichGesamt[b] ?? 0;
+      final qa = ga == 0 ? -1.0 : bereichQuote(a);
+      final qb = gb == 0 ? -1.0 : bereichQuote(b);
+      return qa.compareTo(qb);
+    });
+    return sortiert.take(3).toList();
+  }
+
+  Future<void> abzeichenFreischalten(String id) async {
+    if (abzeichen.add(id)) await _speichern();
   }
 
   Map<String, int> _ladeIntMap(String key, {String sep = ':'}) {
@@ -180,6 +216,7 @@ class FortschrittService {
   Future<void> frageRichtigBeantwortet(String frageId, {String? bereich}) async {
     geloesteFragen.add(frageId);
     gesamtPunkte += 10;
+    wochenXp += 10;
     // Leitner: Eine Box höher (max. Box 5)
     final aktuelleBox = leitnerBoxen[frageId] ?? 1;
     leitnerBoxen[frageId] = (aktuelleBox + 1).clamp(1, 5);
@@ -388,5 +425,8 @@ class FortschrittService {
         sm2Faellig.entries.map((e) => '${e.key}:${e.value}').toList());
     await _prefs.setStringList('readiness',
         readinessVerlauf.entries.map((e) => '${e.key}::${e.value}').toList());
+    await _prefs.setInt('wochen_xp', wochenXp);
+    await _prefs.setString('woche', _woche);
+    await _prefs.setStringList('abzeichen', abzeichen.toList());
   }
 }

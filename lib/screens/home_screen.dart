@@ -14,6 +14,8 @@ import 'muendliche_pruefung_screen.dart';
 import 'mock_pruefung_screen.dart';
 import 'bilder_quiz_screen.dart';
 import 'cockpit_screen.dart';
+import 'lernpfad_screen.dart';
+import 'erfolge_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -121,6 +123,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 22),
 
                     // Rails (Netflix-Stil)
+                    _Rail(
+                      titel: 'Dein Weg',
+                      poster: [
+                        _Poster(
+                            '🗺️',
+                            'Lernpfad',
+                            'Schritt für Schritt',
+                            ZfaTheme.violettGrad,
+                            const LernpfadScreen(),
+                            _refresh),
+                        _Poster(
+                            '🏅',
+                            'Erfolge & Liga',
+                            'Abzeichen & XP',
+                            ZfaTheme.goldGrad,
+                            const ErfolgeScreen(),
+                            _refresh),
+                        _Poster(
+                            '📈',
+                            'Cockpit',
+                            'Bestehens-Chance',
+                            const LinearGradient(colors: [
+                              Color(0xFF0D9488),
+                              Color(0xFF115E59)
+                            ]),
+                            const CockpitScreen(),
+                            _refresh),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
                     _Rail(
                       titel: 'Üben',
                       poster: [
