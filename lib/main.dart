@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'core/services/tts_service.dart';
 import 'core/services/fortschritt_service.dart';
 import 'core/services/notification_service.dart';
+import 'core/services/sound_service.dart';
 import 'theme/theme_controller.dart';
 import 'theme/zfa_theme.dart';
 import 'screens/splash_screen.dart';
@@ -15,6 +16,8 @@ final FortschrittService fortschrittService = FortschrittService();
 final NotificationService notificationService = NotificationService();
 // Globaler Theme-Umschalter (dunkel/hell)
 final ThemeController themeController = ThemeController();
+// Globale, abschaltbare UI-Klänge
+final SoundService soundService = SoundService();
 // Globaler Audio-Zustand für Mini-Player
 final ValueNotifier<AudioZustand?> aktuellerAudio = ValueNotifier(null);
 
@@ -41,6 +44,7 @@ void main() async {
   await fortschrittService.laden();
   await notificationService.initialisieren();
   await themeController.laden();
+  await soundService.initialisieren();
   runApp(const ZFALernApp());
 }
 

@@ -6,6 +6,7 @@ import '../main.dart';
 import '../models/quiz_frage.dart';
 import '../data/quiz/alle_quiz_fragen.dart';
 import '../widgets/tts_button.dart';
+import '../widgets/lern_buddy.dart';
 
 class QuizScreen extends StatefulWidget {
   final String? nurBereich;
@@ -71,6 +72,7 @@ class _QuizScreenState extends State<QuizScreen> {
     });
     if (richtig) {
       HapticFeedback.lightImpact();
+      soundService.richtig();
       _confetti.play();
       _punkteSession += 10;
       _richtigInFolge++;
@@ -79,6 +81,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ttsService.sprechen('Super gemacht!');
     } else {
       HapticFeedback.heavyImpact();
+      soundService.falsch();
       _richtigInFolge = 0;
       fortschrittService.frageFalschBeantwortet(frage.id,
           bereich: frage.bereich);
@@ -100,6 +103,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _zeigeEnde() {
     _confetti.play();
+    soundService.levelUp();
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -111,7 +115,7 @@ class _QuizScreenState extends State<QuizScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('🏆', style: TextStyle(fontSize: 72)),
+              const LernBuddy(stimmung: BuddyStimmung.jubel, groesse: 104),
               const SizedBox(height: 12),
               const Text('Geschafft!',
                   style: TextStyle(

@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import '../main.dart';
 import '../theme/zfa_theme.dart';
 import '../widgets/audio_player_bar.dart';
+import '../widgets/lern_buddy.dart';
 import 'hoerbuch_uebersicht_screen.dart';
 import 'sprach_quiz_screen.dart';
 import 'karteikarten_screen.dart';
@@ -16,6 +17,7 @@ import 'bilder_quiz_screen.dart';
 import 'cockpit_screen.dart';
 import 'lernpfad_screen.dart';
 import 'erfolge_screen.dart';
+import 'ablaeufe_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -74,6 +76,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         _IconPille(
+                          icon: soundService.aktiv
+                              ? Icons.volume_up_rounded
+                              : Icons.volume_off_rounded,
+                          onTap: () async {
+                            await soundService.umschalten(!soundService.aktiv);
+                            if (soundService.aktiv) soundService.tap();
+                            _refresh();
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        _IconPille(
                           icon: dunkel
                               ? Icons.light_mode_rounded
                               : Icons.dark_mode_rounded,
@@ -81,7 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 18),
+                    const SizedBox(height: 16),
+
+                    // Lern-Buddy mit Tipp
+                    _BuddyTipp(),
+                    const SizedBox(height: 16),
 
                     // HERO
                     FadeInDown(
@@ -121,6 +138,54 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 12),
                     _ErinnerungsZeile(onAenderung: _refresh),
                     const SizedBox(height: 22),
+
+                    // Behandlungsabläufe – prominent (Kern der Prüfung)
+                    GlassCard(
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const AblaeufeScreen()),
+                        ).then((_) => _refresh());
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              gradient: ZfaTheme.blauGrad,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            alignment: Alignment.center,
+                            child: const Text('🦷',
+                                style: TextStyle(fontSize: 30)),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Behandlungsabläufe',
+                                    style: TextStyle(
+                                        color: tc,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w800)),
+                                Text(
+                                    '20 Abläufe Schritt für Schritt – fürs Fachgespräch',
+                                    style: TextStyle(
+                                        color: tc.withOpacity(0.6),
+                                        fontSize: 12.5)),
+                              ],
+                            ),
+                          ),
+                          Icon(Icons.chevron_right,
+                              color: tc.withOpacity(0.5)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 18),
 
                     // Rails (Netflix-Stil)
                     _Rail(
@@ -410,6 +475,54 @@ class _PruefungsKachel extends StatelessWidget {
                 Text('bis zur Prüfung',
                     style:
                         TextStyle(color: tc.withOpacity(0.6), fontSize: 12)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BuddyTipp extends StatelessWidget {
+  static const _tipps = [
+    'Schon 5 Minuten am Tag bringen dich weiter!',
+    'Sag die Antwort laut – so merkst du sie dir besser.',
+    'Falsche Karten kommen öfter wieder. Das ist gut so!',
+    'Denk an die 3er-Regel: Blick, Name, Lächeln.',
+    'Lange Kanüle = lange Leitung (Unterkiefer).',
+    'Erst desinfizieren, dann Handschuhe anziehen.',
+    'Lüften kommt ans Ende der Hygiene, nicht an den Anfang.',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final fs = fortschrittService;
+    final tc = Theme.of(context).colorScheme.onSurface;
+    final tipp = _tipps[DateTime.now().day % _tipps.length];
+    final stimmung = fs.tageszielErreicht
+        ? BuddyStimmung.jubel
+        : fs.streak >= 3
+            ? BuddyStimmung.freude
+            : BuddyStimmung.idle;
+    return GlassCard(
+      child: Row(
+        children: [
+          LernBuddy(stimmung: stimmung, groesse: 72),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Zahni sagt:',
+                    style: TextStyle(
+                        color: tc.withOpacity(0.6),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700)),
+                const SizedBox(height: 2),
+                Text(tipp,
+                    style: TextStyle(
+                        color: tc, fontSize: 14.5, height: 1.35)),
               ],
             ),
           ),

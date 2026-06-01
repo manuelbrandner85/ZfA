@@ -71,12 +71,14 @@ class _BilderQuizScreenState extends State<BilderQuizScreen> {
     setState(() => _gewaehlt = name);
     if (korrekt) {
       HapticFeedback.lightImpact();
+      soundService.richtig();
       _confetti.play();
       fortschrittService.frageRichtigBeantwortet('bild_${richtig.id}',
           bereich: 'Behandlungsassistenz');
       ttsService.sprechen('Richtig! Das ist ${richtig.name}.');
     } else {
       HapticFeedback.heavyImpact();
+      soundService.falsch();
       fortschrittService.frageFalschBeantwortet('bild_${richtig.id}',
           bereich: 'Behandlungsassistenz');
       ttsService.sprechen('Das ist ${richtig.name}.');

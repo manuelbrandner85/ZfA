@@ -49,9 +49,11 @@ class _MockPruefungScreenState extends State<MockPruefungScreen> {
     setState(() => _gewaehlt = i);
     if (korrekt) {
       _richtig++;
+      soundService.richtig();
       fortschrittService.frageRichtigBeantwortet(frage.id,
           bereich: frage.bereich);
     } else {
+      soundService.falsch();
       _falscheFragen.add(frage);
       fortschrittService.frageFalschBeantwortet(frage.id,
           bereich: frage.bereich);
