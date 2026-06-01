@@ -89,7 +89,7 @@ class _AblaufErklaerenScreenState extends State<AblaufErklaerenScreen> {
       _auswerten();
     } else {
       setState(() => _erkannt = '');
-      await _stt.starteZuhoeren();
+      await _stt.starteZuhoeren(kontinuierlich: true);
     }
   }
 
@@ -175,10 +175,22 @@ class _AblaufErklaerenScreenState extends State<AblaufErklaerenScreen> {
                         const SizedBox(height: 18),
 
                         if (!_ausgewertet) ...[
-                          if (_mikVerfuegbar)
+                          if (_mikVerfuegbar) ...[
                             Center(
                                 child: SprachEingabeButton(
-                                    aktiv: _hoert, onTippen: _mik))
+                                    aktiv: _hoert, onTippen: _mik)),
+                            const SizedBox(height: 6),
+                            Center(
+                              child: Text(
+                                  _hoert
+                                      ? 'Erkläre in Ruhe ALLE Schritte – tippe das Mikro erst, wenn du fertig bist.'
+                                      : 'Tippe das Mikro und erkläre den ganzen Ablauf am Stück.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: tc.withOpacity(0.6),
+                                      fontSize: 12.5)),
+                            ),
+                          ]
                           else
                             Center(
                               child: Text(

@@ -115,7 +115,7 @@ class _LiveFachgespraechScreenState extends State<LiveFachgespraechScreen> {
       _auswerten();
     } else {
       setState(() => _erkannt = '');
-      await _stt.starteZuhoeren();
+      await _stt.starteZuhoeren(kontinuierlich: true);
     }
   }
 
