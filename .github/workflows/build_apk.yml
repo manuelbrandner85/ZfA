@@ -2,9 +2,13 @@ name: 🦷 ZFA Lernapp — Build APK
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - 'claude/**'   # Build auch auf Entwicklungs-Branches
     tags:
       - 'v*'
+  pull_request:
+    branches: [ main ]   # Build & APK-Artifact direkt am PR
   workflow_dispatch:  # Manuell auslösbar!
 
 jobs:
