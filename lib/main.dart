@@ -3,12 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/services/tts_service.dart';
 import 'core/services/fortschritt_service.dart';
+import 'core/services/notification_service.dart';
 import 'screens/splash_screen.dart';
 
 // Globaler TTS Service - überall erreichbar
 final TtsService ttsService = TtsService();
 // Globaler Fortschritt - überall erreichbar
 final FortschrittService fortschrittService = FortschrittService();
+// Globale Erinnerungen (tägliche Lern-Benachrichtigung)
+final NotificationService notificationService = NotificationService();
 // Globaler Audio-Zustand für Mini-Player
 final ValueNotifier<AudioZustand?> aktuellerAudio = ValueNotifier(null);
 
@@ -33,6 +36,7 @@ void main() async {
   ]);
   await ttsService.initialisieren();
   await fortschrittService.laden();
+  await notificationService.initialisieren();
   runApp(const ZFALernApp());
 }
 

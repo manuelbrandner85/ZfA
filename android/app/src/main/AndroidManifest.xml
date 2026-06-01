@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Für Vibration bei Feedback -->
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- Für tägliche Lern-Erinnerungen -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:label="ZFA Lernapp"
