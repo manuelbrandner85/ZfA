@@ -66,7 +66,7 @@ class ZFALernApp extends StatelessWidget {
           ),
         ),
         scaffoldBackgroundColor: const Color(0xFFF0F4FF),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 3,
           shadowColor: Colors.black.withOpacity(0.08),
           shape: RoundedRectangleBorder(
