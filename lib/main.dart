@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'core/services/tts_service.dart';
 import 'core/services/fortschritt_service.dart';
 import 'core/services/notification_service.dart';
+import 'theme/theme_controller.dart';
+import 'theme/zfa_theme.dart';
 import 'screens/splash_screen.dart';
 
 // Globaler TTS Service - überall erreichbar
@@ -12,6 +13,8 @@ final TtsService ttsService = TtsService();
 final FortschrittService fortschrittService = FortschrittService();
 // Globale Erinnerungen (tägliche Lern-Benachrichtigung)
 final NotificationService notificationService = NotificationService();
+// Globaler Theme-Umschalter (dunkel/hell)
+final ThemeController themeController = ThemeController();
 // Globaler Audio-Zustand für Mini-Player
 final ValueNotifier<AudioZustand?> aktuellerAudio = ValueNotifier(null);
 
@@ -37,6 +40,7 @@ void main() async {
   await ttsService.initialisieren();
   await fortschrittService.laden();
   await notificationService.initialisieren();
+  await themeController.laden();
   runApp(const ZFALernApp());
 }
 
@@ -45,53 +49,18 @@ class ZFALernApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ZFA Lernapp',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1565C0),
-          brightness: Brightness.light,
-        ),
-        textTheme: GoogleFonts.nunitoTextTheme().copyWith(
-          bodyLarge: GoogleFonts.nunito(
-            fontSize: 17,
-            height: 1.7,
-            letterSpacing: 0.3,
-          ),
-          bodyMedium: GoogleFonts.nunito(
-            fontSize: 15,
-            height: 1.6,
-          ),
-          titleLarge: GoogleFonts.nunito(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            height: 1.4,
-          ),
-        ),
-        scaffoldBackgroundColor: const Color(0xFFF0F4FF),
-        cardTheme: CardThemeData(
-          elevation: 3,
-          shadowColor: Colors.black.withOpacity(0.08),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 56),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            textStyle: GoogleFonts.nunito(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        useMaterial3: true,
-      ),
-      home: const SplashScreen(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeController.mode,
+      builder: (context, mode, _) {
+        return MaterialApp(
+          title: 'ZFA Lernapp',
+          debugShowCheckedModeBanner: false,
+          theme: ZfaTheme.light(),
+          darkTheme: ZfaTheme.dark(),
+          themeMode: mode,
+          home: const SplashScreen(),
+        );
+      },
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:animate_do/animate_do.dart';
 import '../main.dart';
-import '../widgets/cinematic_background.dart';
+import '../theme/zfa_theme.dart';
 import '../widgets/audio_player_bar.dart';
 import 'hoerbuch_uebersicht_screen.dart';
 import 'sprach_quiz_screen.dart';
@@ -23,192 +23,194 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _tagesgruss() {
-    final stunde = DateTime.now().hour;
-    if (stunde < 11) return 'Guten Morgen!';
-    if (stunde < 17) return 'Schön, dass du da bist!';
-    return 'Guten Abend!';
+    final h = DateTime.now().hour;
+    if (h < 11) return 'Guten Morgen';
+    if (h < 17) return 'Willkommen zurück';
+    return 'Guten Abend';
   }
+
+  void _refresh() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
     final schwach = fortschrittService.schwaechsterBereich();
+    final tc = Theme.of(context).colorScheme.onSurface;
+    final dunkel = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      body: CinematicBackground(
+      body: PremiumBackground(
         child: SafeArea(
           child: Column(
             children: [
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                  padding: const EdgeInsets.fromLTRB(20, 14, 20, 24),
                   children: [
-                    // Kopfzeile mit kleinem Logo
+                    // Kopfzeile
                     Row(
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(14),
                           child: Image.asset('assets/images/logo.jpg',
-                              width: 52, height: 52, fit: BoxFit.cover),
+                              width: 48, height: 48, fit: BoxFit.cover),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                _tagesgruss(),
-                                style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Text(
-                                'Heute lernst du:',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color(0xFFB0C4FF),
-                                ),
-                              ),
+                              Text(_tagesgruss(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge),
+                              Text('Bereit für deine Prüfung?',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: tc.withOpacity(0.6))),
                             ],
                           ),
+                        ),
+                        _IconPille(
+                          icon: dunkel
+                              ? Icons.light_mode_rounded
+                              : Icons.dark_mode_rounded,
+                          onTap: () => themeController.umschalten(),
                         ),
                       ],
                     ),
                     const SizedBox(height: 18),
 
-                    // HERO: Heute lernen + Tagesziel-Ring
+                    // HERO
                     FadeInDown(
-                      child: _HeuteLernenKarte(
+                      child: _HeroHeute(
                         bereich: schwach,
                         onLernen: () {
                           HapticFeedback.lightImpact();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const QuizScreen(),
-                            ),
-                          ).then((_) => setState(() {}));
+                                builder: (_) => const QuizScreen()),
+                          ).then((_) => _refresh());
                         },
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 14),
 
-                    // Prüfungs-Countdown
-                    _PruefungsKarte(onAenderung: () => setState(() {})),
-                    const SizedBox(height: 12),
-
-                    // Tägliche Erinnerung
-                    _ErinnerungsZeile(onAenderung: () => setState(() {})),
-                    const SizedBox(height: 16),
-
-                    // Mini-Statistik (3 Werte = Chunking)
-                    FadeIn(
-                      child: Row(
-                        children: [
-                          _StatChip(
-                            emoji: '⭐',
-                            wert: '${fortschrittService.gesamtPunkte}',
-                            label: 'Punkte',
-                          ),
-                          const SizedBox(width: 10),
-                          _StatChip(
-                            emoji: '🔥',
-                            wert: '${fortschrittService.streak}',
-                            label: 'Tage',
-                          ),
-                          const SizedBox(width: 10),
-                          _StatChip(
-                            emoji: '📖',
-                            wert: '${fortschrittService.kapitelGehoert}',
-                            label: 'Kapitel',
-                          ),
-                        ],
-                      ),
+                    // Prüfungs-Countdown + Statistik nebeneinander
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: _PruefungsKachel(onAenderung: _refresh),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          flex: 2,
+                          child: _StreakKachel(),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 12),
+                    _ErinnerungsZeile(onAenderung: _refresh),
                     const SizedBox(height: 22),
 
-                    const Text(
-                      'Wähle deinen Weg',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    // Rails (Netflix-Stil)
+                    _Rail(
+                      titel: 'Üben',
+                      poster: [
+                        _Poster('🎯', 'Quiz', 'Wissen testen',
+                            ZfaTheme.blauGrad, const QuizScreen(), _refresh),
+                        _Poster(
+                            '🎤',
+                            'Sprach-Quiz',
+                            'Laut antworten',
+                            ZfaTheme.violettGrad,
+                            const SprachQuizScreen(),
+                            _refresh),
+                        _Poster(
+                            '🃏',
+                            'Karten',
+                            'Umblättern',
+                            const LinearGradient(colors: [
+                              Color(0xFF22C55E),
+                              Color(0xFF15803D)
+                            ]),
+                            const KarteikartenScreen(),
+                            _refresh),
+                        _Poster(
+                            '🖼️',
+                            'Instrumente',
+                            'Erkennen',
+                            const LinearGradient(colors: [
+                              Color(0xFF06B6D4),
+                              Color(0xFF0E7490)
+                            ]),
+                            const BilderQuizScreen(),
+                            _refresh),
+                        _Poster(
+                            '🔍',
+                            'Fehler finden',
+                            'Was ist falsch?',
+                            const LinearGradient(colors: [
+                              Color(0xFFEF4444),
+                              Color(0xFFB91C1C)
+                            ]),
+                            const FehlerSuchenScreen(),
+                            _refresh),
+                      ],
                     ),
-                    const SizedBox(height: 12),
-
-                    // Große Menü-Karten
-                    _MenuKarte(
-                      emoji: '🎓',
-                      titel: 'Mündliche Prüfung',
-                      untertitel: 'Fachgespräch laut üben',
-                      farben: const [Color(0xFF4527A0), Color(0xFF7E57C2)],
-                      ziel: const MuendlichePruefungScreen(),
-                      onReturn: () => setState(() {}),
+                    const SizedBox(height: 18),
+                    _Rail(
+                      titel: 'Prüfung',
+                      poster: [
+                        _Poster(
+                            '🎓',
+                            'Mündliche Prüfung',
+                            'Fachgespräch',
+                            const LinearGradient(colors: [
+                              Color(0xFF7C5CFF),
+                              Color(0xFF4527A0)
+                            ]),
+                            const MuendlichePruefungScreen(),
+                            _refresh),
+                        _Poster(
+                            '📝',
+                            'Simulation',
+                            'Prüfung mit Note',
+                            const LinearGradient(colors: [
+                              Color(0xFF3949AB),
+                              Color(0xFF1A237E)
+                            ]),
+                            const MockPruefungScreen(),
+                            _refresh),
+                      ],
                     ),
-                    _MenuKarte(
-                      emoji: '📖',
-                      titel: 'Hörbuch',
-                      untertitel: 'Einfach anhören & lernen',
-                      farben: const [Color(0xFF1565C0), Color(0xFF1E88E5)],
-                      ziel: const HoerbuchUebersichtScreen(),
-                      onReturn: () => setState(() {}),
-                    ),
-                    _MenuKarte(
-                      emoji: '🎤',
-                      titel: 'Sprach-Quiz',
-                      untertitel: 'Sag die Antwort laut!',
-                      farben: const [Color(0xFF6A1B9A), Color(0xFF8E24AA)],
-                      ziel: const SprachQuizScreen(),
-                      onReturn: () => setState(() {}),
-                    ),
-                    _MenuKarte(
-                      emoji: '🃏',
-                      titel: 'Karten',
-                      untertitel: 'Umblättern & merken',
-                      farben: const [Color(0xFF2E7D32), Color(0xFF43A047)],
-                      ziel: const KarteikartenScreen(),
-                      onReturn: () => setState(() {}),
-                    ),
-                    _MenuKarte(
-                      emoji: '🎯',
-                      titel: 'Quiz',
-                      untertitel: 'Teste dein Wissen',
-                      farben: const [Color(0xFFE65100), Color(0xFFF57C00)],
-                      ziel: const QuizScreen(),
-                      onReturn: () => setState(() {}),
-                    ),
-                    _MenuKarte(
-                      emoji: '📝',
-                      titel: 'Prüfung simulieren',
-                      untertitel: 'Echte Prüfung mit Note',
-                      farben: const [Color(0xFF283593), Color(0xFF3949AB)],
-                      ziel: const MockPruefungScreen(),
-                      onReturn: () => setState(() {}),
-                    ),
-                    _MenuKarte(
-                      emoji: '🖼️',
-                      titel: 'Instrumente erkennen',
-                      untertitel: 'Welches Instrument ist das?',
-                      farben: const [Color(0xFF00838F), Color(0xFF00ACC1)],
-                      ziel: const BilderQuizScreen(),
-                      onReturn: () => setState(() {}),
-                    ),
-                    _MenuKarte(
-                      emoji: '🔍',
-                      titel: 'Fehler finden',
-                      untertitel: 'Was ist hier falsch?',
-                      farben: const [Color(0xFFC62828), Color(0xFFE53935)],
-                      ziel: const FehlerSuchenScreen(),
-                      onReturn: () => setState(() {}),
-                    ),
-                    _MenuKarte(
-                      emoji: '📊',
-                      titel: 'Mein Fortschritt',
-                      untertitel: 'Deine Statistiken',
-                      farben: const [Color(0xFF00695C), Color(0xFF00897B)],
-                      ziel: const FortschrittScreen(),
-                      onReturn: () => setState(() {}),
+                    const SizedBox(height: 18),
+                    _Rail(
+                      titel: 'Anhören & Auswerten',
+                      poster: [
+                        _Poster(
+                            '📖',
+                            'Hörbuch',
+                            '10 Kapitel',
+                            const LinearGradient(colors: [
+                              Color(0xFF2563EB),
+                              Color(0xFF1E3A8A)
+                            ]),
+                            const HoerbuchUebersichtScreen(),
+                            _refresh),
+                        _Poster(
+                            '📊',
+                            'Fortschritt',
+                            'Statistiken',
+                            const LinearGradient(colors: [
+                              Color(0xFF0D9488),
+                              Color(0xFF115E59)
+                            ]),
+                            const FortschrittScreen(),
+                            _refresh),
+                      ],
                     ),
                   ],
                 ),
@@ -222,13 +224,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Hero-Karte: ein großer Knopf + Tagesziel-Ring. Nimmt dem Nutzer jede
-// Entscheidung ab – einfach starten.
-class _HeuteLernenKarte extends StatelessWidget {
+// ---------------- HERO ----------------
+class _HeroHeute extends StatelessWidget {
   final String bereich;
   final VoidCallback onLernen;
-  const _HeuteLernenKarte(
-      {required this.bereich, required this.onLernen});
+  const _HeroHeute({required this.bereich, required this.onLernen});
 
   @override
   Widget build(BuildContext context) {
@@ -236,17 +236,15 @@ class _HeuteLernenKarte extends StatelessWidget {
     final geschafft = fs.aufgabenHeute.clamp(0, fs.tagesziel);
     final fertig = fs.tageszielErreicht;
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFD4AF37), Color(0xFFF4D03F)],
-        ),
-        borderRadius: BorderRadius.circular(24),
+        gradient: ZfaTheme.goldGrad,
+        borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFD4AF37).withOpacity(0.35),
-            blurRadius: 20,
-            offset: const Offset(0, 6),
+            color: ZfaTheme.gold.withOpacity(0.4),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
@@ -254,32 +252,28 @@ class _HeuteLernenKarte extends StatelessWidget {
         children: [
           Row(
             children: [
-              // Tagesziel-Ring
               SizedBox(
-                width: 74,
-                height: 74,
+                width: 78,
+                height: 78,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     SizedBox(
-                      width: 74,
-                      height: 74,
+                      width: 78,
+                      height: 78,
                       child: CircularProgressIndicator(
                         value: fs.tageszielFortschritt,
-                        strokeWidth: 8,
+                        strokeWidth: 9,
                         backgroundColor: const Color(0x33000000),
                         valueColor: const AlwaysStoppedAnimation(
                             Color(0xFF3E2723)),
                       ),
                     ),
-                    Text(
-                      fertig ? '✓' : '$geschafft/${fs.tagesziel}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16,
-                        color: Color(0xFF3E2723),
-                      ),
-                    ),
+                    Text(fertig ? '✓' : '$geschafft/${fs.tagesziel}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
+                            color: Color(0xFF3E2723))),
                   ],
                 ),
               ),
@@ -288,33 +282,26 @@ class _HeuteLernenKarte extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      fertig
-                          ? 'Tagesziel geschafft! 🎉'
-                          : 'Heute lernen',
-                      style: const TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF3E2723),
-                      ),
-                    ),
+                    Text(fertig ? 'Tagesziel geschafft! 🎉' : 'Dein Fokus heute',
+                        style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF3E2723))),
                     const SizedBox(height: 4),
                     Text(
-                      fertig
-                          ? 'Stark dran geblieben – noch eine Runde?'
-                          : 'Schwerpunkt heute: $bereich',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF5D4037),
-                        height: 1.3,
-                      ),
-                    ),
+                        fertig
+                            ? 'Stark dran geblieben – noch eine Runde?'
+                            : bereich,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF5D4037),
+                            height: 1.3)),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
@@ -322,9 +309,9 @@ class _HeuteLernenKarte extends StatelessWidget {
               icon: const Icon(Icons.play_arrow_rounded, size: 26),
               label: const Text('Jetzt 5 Minuten lernen'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF3E2723),
+                backgroundColor: const Color(0xFF2A1A12),
                 foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 52),
+                minimumSize: const Size(double.infinity, 54),
               ),
             ),
           ),
@@ -334,10 +321,10 @@ class _HeuteLernenKarte extends StatelessWidget {
   }
 }
 
-// Prüfungs-Countdown. Tippen setzt/ändert den Termin.
-class _PruefungsKarte extends StatelessWidget {
+// ---------------- Kacheln ----------------
+class _PruefungsKachel extends StatelessWidget {
   final VoidCallback onAenderung;
-  const _PruefungsKarte({required this.onAenderung});
+  const _PruefungsKachel({required this.onAenderung});
 
   Future<void> _datumWaehlen(BuildContext context) async {
     final jetzt = DateTime.now();
@@ -360,64 +347,63 @@ class _PruefungsKarte extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tage = fortschrittService.tageBisPruefung();
-    final gesetzt = tage != null;
-    return Material(
-      color: Colors.white.withOpacity(0.10),
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: () => _datumWaehlen(context),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Colors.white.withOpacity(0.15)),
+    final tc = Theme.of(context).colorScheme.onSurface;
+    return GlassCard(
+      padding: const EdgeInsets.all(16),
+      onTap: () => _datumWaehlen(context),
+      child: Row(
+        children: [
+          const Text('🗓️', style: TextStyle(fontSize: 24)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tage == null
+                      ? 'Termin setzen'
+                      : tage > 0
+                          ? 'Noch $tage Tage'
+                          : tage == 0
+                              ? 'Heute! 🍀'
+                              : 'Termin anpassen',
+                  style: TextStyle(
+                      color: tc, fontWeight: FontWeight.w800, fontSize: 17),
+                ),
+                Text('bis zur Prüfung',
+                    style:
+                        TextStyle(color: tc.withOpacity(0.6), fontSize: 12)),
+              ],
+            ),
           ),
-          child: Row(
-            children: [
-              const Text('🗓️', style: TextStyle(fontSize: 26)),
-              const SizedBox(width: 14),
-              Expanded(
-                child: gesetzt
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tage > 0
-                                ? 'Noch $tage Tage bis zur Prüfung'
-                                : tage == 0
-                                    ? 'Heute ist deine Prüfung – viel Erfolg! 🍀'
-                                    : 'Prüfung geschafft? Termin anpassen',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const Text('Tippen zum Ändern',
-                              style: TextStyle(
-                                  color: Color(0xFFB0C4FF), fontSize: 12)),
-                        ],
-                      )
-                    : const Text(
-                        'Prüfungstermin festlegen',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                        ),
-                      ),
-              ),
-              const Icon(Icons.chevron_right, color: Colors.white54),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
 }
 
-// Schalter für die tägliche Lern-Erinnerung.
+class _StreakKachel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final tc = Theme.of(context).colorScheme.onSurface;
+    return GlassCard(
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('🔥', style: TextStyle(fontSize: 22)),
+          const SizedBox(height: 4),
+          Text('${fortschrittService.streak}',
+              style: TextStyle(
+                  color: tc, fontWeight: FontWeight.w800, fontSize: 22)),
+          Text('Tage Serie',
+              style: TextStyle(color: tc.withOpacity(0.6), fontSize: 11)),
+        ],
+      ),
+    );
+  }
+}
+
 class _ErinnerungsZeile extends StatefulWidget {
   final VoidCallback onAenderung;
   const _ErinnerungsZeile({required this.onAenderung});
@@ -446,188 +432,147 @@ class _ErinnerungsZeileState extends State<_ErinnerungsZeile> {
   @override
   Widget build(BuildContext context) {
     final s = notificationService;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.10),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withOpacity(0.15)),
-      ),
+    final tc = Theme.of(context).colorScheme.onSurface;
+    return GlassCard(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
         children: [
-          const Text('🔔', style: TextStyle(fontSize: 22)),
-          const SizedBox(width: 14),
+          const Text('🔔', style: TextStyle(fontSize: 20)),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Tägliche Erinnerung',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                  ),
-                ),
+                Text('Tägliche Erinnerung',
+                    style: TextStyle(
+                        color: tc,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15)),
                 Text(
                   s.aktiv
                       ? 'Jeden Tag um ${s.stunde.toString().padLeft(2, '0')}:${s.minute.toString().padLeft(2, '0')} Uhr'
                       : 'Aus – tippe zum Aktivieren',
-                  style: const TextStyle(
-                      color: Color(0xFFB0C4FF), fontSize: 12),
+                  style: TextStyle(color: tc.withOpacity(0.6), fontSize: 12),
                 ),
               ],
             ),
           ),
           _busy
               ? const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                      strokeWidth: 2, color: Colors.white))
-              : Switch(
-                  value: s.aktiv,
-                  activeColor: const Color(0xFFF4D03F),
-                  onChanged: _umschalten,
-                ),
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(strokeWidth: 2))
+              : Switch(value: s.aktiv, onChanged: _umschalten),
         ],
       ),
     );
   }
 }
 
-class _StatChip extends StatelessWidget {
-  final String emoji;
-  final String wert;
-  final String label;
-  const _StatChip(
-      {required this.emoji, required this.wert, required this.label});
+class _IconPille extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  const _IconPille({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.10),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withOpacity(0.15)),
-        ),
-        child: Column(
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 24)),
-            const SizedBox(height: 4),
-            Text(
-              wert,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              label,
-              style: const TextStyle(fontSize: 12, color: Color(0xFFB0C4FF)),
-            ),
-          ],
-        ),
-      ),
+    final tc = Theme.of(context).colorScheme.onSurface;
+    return GlassCard(
+      padding: const EdgeInsets.all(10),
+      radius: 16,
+      onTap: onTap,
+      child: Icon(icon, color: tc, size: 22),
     );
   }
 }
 
-class _MenuKarte extends StatelessWidget {
-  final String emoji;
+// ---------------- Rails & Poster ----------------
+class _Rail extends StatelessWidget {
   final String titel;
-  final String untertitel;
-  final List<Color> farben;
-  final Widget ziel;
-  final VoidCallback onReturn;
-
-  const _MenuKarte({
-    required this.emoji,
-    required this.titel,
-    required this.untertitel,
-    required this.farben,
-    required this.ziel,
-    required this.onReturn,
-  });
+  final List<_Poster> poster;
+  const _Rail({required this.titel, required this.poster});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(24),
-          onTap: () {
-            HapticFeedback.lightImpact();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => ziel),
-            ).then((_) => onReturn());
-          },
-          child: Container(
-            height: 120,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: farben,
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: farben.last.withOpacity(0.4),
-                  blurRadius: 18,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 68,
-                  height: 68,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.20),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(emoji, style: const TextStyle(fontSize: 36)),
-                ),
-                const SizedBox(width: 18),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        titel,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        untertitel,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withOpacity(0.9),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(Icons.arrow_forward_ios_rounded,
-                    color: Colors.white70, size: 18),
-              ],
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(titel, style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 184,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            itemCount: poster.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 14),
+            itemBuilder: (_, i) => poster[i],
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Poster extends StatelessWidget {
+  final String emoji;
+  final String titel;
+  final String untertitel;
+  final Gradient gradient;
+  final Widget ziel;
+  final VoidCallback onReturn;
+  const _Poster(this.emoji, this.titel, this.untertitel, this.gradient,
+      this.ziel, this.onReturn);
+
+  @override
+  Widget build(BuildContext context) {
+    final letzte = (gradient as LinearGradient).colors.last;
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(context, MaterialPageRoute(builder: (_) => ziel))
+            .then((_) => onReturn());
+      },
+      child: Container(
+        width: 152,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: gradient,
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+                color: letzte.withOpacity(0.45),
+                blurRadius: 20,
+                offset: const Offset(0, 10)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.22),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              alignment: Alignment.center,
+              child: Text(emoji, style: const TextStyle(fontSize: 30)),
+            ),
+            const Spacer(),
+            Text(titel,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 17,
+                    height: 1.1)),
+            const SizedBox(height: 2),
+            Text(untertitel,
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.85), fontSize: 12)),
+          ],
         ),
       ),
     );
