@@ -1,0 +1,32 @@
+name: zfa_lernapp
+description: ZFA Prüfungsvorbereitung - Einfach, Audio, Interaktiv
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  animate_do: ^3.3.4
+  confetti: ^0.7.0
+  fl_chart: ^0.68.0
+  flip_card: ^0.7.0
+  shared_preferences: ^2.3.2
+  flutter_tts: ^4.2.0
+  speech_to_text: ^7.0.0
+  permission_handler: ^11.3.1
+  lottie: ^3.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/

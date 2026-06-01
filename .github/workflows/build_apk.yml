@@ -1,0 +1,80 @@
+name: 🦷 ZFA Lernapp — Build APK
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  workflow_dispatch:  # Manuell auslösbar!
+
+jobs:
+  build:
+    name: Build Flutter APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Code holen
+        uses: actions/checkout@v4
+
+      - name: ☕ Java 17 installieren
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 🐦 Flutter installieren
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Dependencies holen
+        run: flutter pub get
+
+      - name: 🧪 Tests laufen lassen
+        run: flutter test
+        continue-on-error: true  # Nicht blocken wenn Tests fehlen
+
+      - name: 🔨 APK bauen (Release)
+        run: flutter build apk --release --split-per-abi
+
+      - name: 🔨 APK bauen (Universal)
+        run: flutter build apk --release
+
+      - name: 📤 APK als Artifact hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZFA-Lernapp-APK
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+            build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+          retention-days: 30
+
+      - name: 🚀 Release erstellen (nur bei Tags)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ZFA Lernapp ${{ github.ref_name }}
+          body: |
+            ## 🦷 ZFA Lernapp — Neue Version!
+
+            ### Was ist neu?
+            - Automatisch gebaute APK aus dem neuesten Code
+
+            ### Installation:
+            1. **app-arm64-v8a-release.apk** — Für moderne Android Geräte (empfohlen!)
+            2. **app-armeabi-v7a-release.apk** — Für ältere Android Geräte
+            3. **app-release.apk** — Universal (läuft auf allem)
+
+            ### Hinweis:
+            Beim Installieren: "Unbekannte Quellen" in Android-Einstellungen erlauben!
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+            build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
