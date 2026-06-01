@@ -7,6 +7,7 @@ import '../models/quiz_frage.dart';
 import '../data/quiz/alle_quiz_fragen.dart';
 import '../widgets/tts_button.dart';
 import '../widgets/lern_buddy.dart';
+import '../widgets/schwierigkeit.dart';
 
 class QuizScreen extends StatefulWidget {
   final String? nurBereich;
@@ -24,6 +25,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _punkteSession = 0;
   int _richtigInFolge = 0;
   late List<int> _antwortReihenfolge; // gemischte Anzeige-Reihenfolge
+  String _schwierigkeit = 'Alle'; // Alle / Leicht / Mittel / Schwer
   late ConfettiController _confetti;
 
   @override
@@ -37,6 +39,11 @@ class _QuizScreenState extends State<QuizScreen> {
     var pool = alleQuizFragen.toList();
     if (widget.nurBereich != null) {
       pool = pool.where((f) => f.bereich == widget.nurBereich).toList();
+    }
+    if (_schwierigkeit != 'Alle') {
+      final key = _schwierigkeit.toLowerCase();
+      final gefiltert = pool.where((f) => f.schwierigkeit == key).toList();
+      if (gefiltert.isNotEmpty) pool = gefiltert;
     }
     // Spaced Repetition: heute fällige Fragen zuerst
     final faelligeIds =
@@ -198,6 +205,41 @@ class _QuizScreenState extends State<QuizScreen> {
                 valueColor:
                     const AlwaysStoppedAnimation(Color(0xFFE65100)),
               ),
+              // Schwierigkeits-Filter
+              SizedBox(
+                height: 48,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  children: ['Alle', 'Leicht', 'Mittel', 'Schwer'].map((s) {
+                    final aktiv = _schwierigkeit == s;
+                    final farbe = s == 'Alle'
+                        ? const Color(0xFFE65100)
+                        : Schwierigkeit.farbe(s.toLowerCase());
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 7),
+                      child: ChoiceChip(
+                        label: Text(s),
+                        selected: aktiv,
+                        onSelected: (_) {
+                          setState(() {
+                            _schwierigkeit = s;
+                            _index = 0;
+                            _gewaehlt = null;
+                            _beantwortet = false;
+                            _fragenLaden();
+                          });
+                        },
+                        selectedColor: farbe,
+                        labelStyle: TextStyle(
+                            color: aktiv ? Colors.white : Colors.black87,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
               if (_richtigInFolge >= 3)
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
@@ -221,8 +263,11 @@ class _QuizScreenState extends State<QuizScreen> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                               children: [
+                                SchwierigkeitBadge(
+                                    schwierigkeit: frage.schwierigkeit),
                                 TtsButton(
                                     text: frage.frage,
                                     farbe: const Color(0xFFE65100)),

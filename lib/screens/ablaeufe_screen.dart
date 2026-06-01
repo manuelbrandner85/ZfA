@@ -6,6 +6,7 @@ import '../core/services/tts_service.dart';
 import '../theme/zfa_theme.dart';
 import '../models/behandlungsablauf.dart';
 import '../data/behandlungsablaeufe_daten.dart';
+import 'ablauf_erklaeren_screen.dart';
 
 class AblaeufeScreen extends StatelessWidget {
   const AblaeufeScreen({super.key});
@@ -219,6 +220,27 @@ class _AblaufDetailScreenState extends State<AblaufDetailScreen> {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Aktiv üben: erklären
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          HapticFeedback.lightImpact();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    AblaufErklaerenScreen(ablauf: a)),
+                          );
+                        },
+                        icon: const Icon(Icons.mic_rounded),
+                        label: const Text('Erklären üben (wie im Fachgespräch)'),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: ZfaTheme.violett,
+                            foregroundColor: Colors.white),
                       ),
                     ),
                     const SizedBox(height: 12),

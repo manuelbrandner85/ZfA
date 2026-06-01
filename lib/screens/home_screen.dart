@@ -21,6 +21,11 @@ import 'ablaeufe_screen.dart';
 import 'live_fachgespraech_screen.dart';
 import 'eigene_karten_screen.dart';
 import 'glossar_screen.dart';
+import 'pruefungsmodus_screen.dart';
+import 'reihenfolge_screen.dart';
+import 'ablauf_erklaeren_screen.dart';
+import '../data/behandlungsablaeufe_daten.dart';
+import 'dart:math' as math;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -44,6 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final schwach = fortschrittService.schwaechsterBereich();
     final tc = Theme.of(context).colorScheme.onSurface;
     final dunkel = Theme.of(context).brightness == Brightness.dark;
+    final zufallsAblauf = alleBehandlungsablaeufe[
+        math.Random().nextInt(alleBehandlungsablaeufe.length)];
 
     return Scaffold(
       body: PremiumBackground(
@@ -227,6 +234,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         _Poster('🎯', 'Quiz', 'Wissen testen',
                             ZfaTheme.blauGrad, const QuizScreen(), _refresh),
                         _Poster(
+                            '🔀',
+                            'Reihenfolge',
+                            'Schritte ordnen',
+                            const LinearGradient(colors: [
+                              Color(0xFF8B5CF6),
+                              Color(0xFF6D28D9)
+                            ]),
+                            const ReihenfolgeScreen(),
+                            _refresh),
+                        _Poster(
                             '🎤',
                             'Sprach-Quiz',
                             'Laut antworten',
@@ -269,6 +286,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     _Rail(
                       titel: 'Prüfung',
                       poster: [
+                        _Poster(
+                            '🏁',
+                            'Prüfungsmodus',
+                            'Echt, mit Zeit & Note',
+                            const LinearGradient(colors: [
+                              Color(0xFF1D4ED8),
+                              Color(0xFF0B2A6B)
+                            ]),
+                            const PruefungsmodusScreen(),
+                            _refresh),
+                        _Poster(
+                            '🗣️',
+                            'Ablauf erklären',
+                            'Laut wie im Fachgespräch',
+                            const LinearGradient(colors: [
+                              Color(0xFF0EA5E9),
+                              Color(0xFF1E3A8A)
+                            ]),
+                            AblaufErklaerenScreen(ablauf: zufallsAblauf),
+                            _refresh),
                         _Poster(
                             '🎙️',
                             'Live-Fachgespräch',
