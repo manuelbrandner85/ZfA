@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -194,7 +193,9 @@ class _Glow extends StatelessWidget {
   }
 }
 
-/// Glasmorphes Panel (frosted glass) – Kern des Premium-Looks.
+/// Glasmorphes Panel – Kern des Premium-Looks. Bewusst OHNE BackdropFilter,
+/// damit es unter allen Constraints stabil rendert und auch auf schwächeren
+/// Geräten flüssig bleibt (translucentes Panel mit Rand + Schatten).
 class GlassCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -214,42 +215,38 @@ class GlassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dunkel = Theme.of(context).brightness == Brightness.dark;
-    final inhalt = ClipRRect(
+    final deko = BoxDecoration(
+      color: dunkel
+          ? Colors.white.withOpacity(0.07)
+          : Colors.white.withOpacity(0.82),
       borderRadius: BorderRadius.circular(radius),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
-        child: Container(
-          padding: padding,
-          decoration: BoxDecoration(
-            color: dunkel
-                ? Colors.white.withOpacity(0.06)
-                : Colors.white.withOpacity(0.65),
-            borderRadius: BorderRadius.circular(radius),
-            border: Border.all(
-              color: dunkel
-                  ? Colors.white.withOpacity(0.10)
-                  : Colors.white.withOpacity(0.9),
-              width: 1,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(dunkel ? 0.35 : 0.08),
-                blurRadius: 24,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: child,
-        ),
+      border: Border.all(
+        color: dunkel
+            ? Colors.white.withOpacity(0.12)
+            : Colors.white.withOpacity(0.9),
+        width: 1,
       ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(dunkel ? 0.30 : 0.08),
+          blurRadius: 22,
+          offset: const Offset(0, 10),
+        ),
+      ],
     );
-    if (onTap == null) return inhalt;
+    if (onTap == null) {
+      return Container(padding: padding, decoration: deko, child: child);
+    }
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(radius),
         onTap: onTap,
-        child: inhalt,
+        child: Ink(
+          padding: padding,
+          decoration: deko,
+          child: child,
+        ),
       ),
     );
   }

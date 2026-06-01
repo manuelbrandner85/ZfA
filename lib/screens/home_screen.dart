@@ -131,19 +131,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 14),
 
                     // Prüfungs-Countdown + Statistik nebeneinander
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: _PruefungsKachel(onAenderung: _refresh),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          flex: 2,
-                          child: _StreakKachel(),
-                        ),
-                      ],
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: _PruefungsKachel(onAenderung: _refresh),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            flex: 2,
+                            child: _StreakKachel(),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 12),
                     _ErinnerungsZeile(onAenderung: _refresh),
