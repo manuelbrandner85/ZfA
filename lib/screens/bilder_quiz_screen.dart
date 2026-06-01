@@ -130,23 +130,34 @@ class _BilderQuizScreenState extends State<BilderQuizScreen> {
                               fontSize: 20, fontWeight: FontWeight.w800)),
                     ),
                     const SizedBox(height: 14),
-                    // Zeichnung
+                    // Instrument auf „Studio"-Hintergrund
                     Center(
                       child: Container(
-                        width: 220,
-                        height: 220,
+                        width: 240,
+                        height: 240,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          gradient: const RadialGradient(
+                            center: Alignment(-0.2, -0.3),
+                            radius: 0.95,
+                            colors: [
+                              Color(0xFFFFFFFF),
+                              Color(0xFFEDF2F5),
+                              Color(0xFFD7E0E6),
+                            ],
+                            stops: [0.0, 0.6, 1.0],
+                          ),
                           borderRadius: BorderRadius.circular(28),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.08),
-                              blurRadius: 18,
-                              offset: const Offset(0, 6),
+                              color: Colors.black.withOpacity(0.12),
+                              blurRadius: 22,
+                              offset: const Offset(0, 8),
                             ),
                           ],
+                          border: Border.all(
+                              color: Colors.white.withOpacity(0.8), width: 1),
                         ),
-                        child: InstrumentZeichnung(id: aktuell.id, groesse: 220),
+                        child: InstrumentZeichnung(id: aktuell.id, groesse: 240),
                       ),
                     ),
                     const SizedBox(height: 18),
