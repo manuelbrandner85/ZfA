@@ -1,7 +1,16 @@
+import 'dart:math' as math;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FortschrittService {
   late SharedPreferences _prefs;
+
+  // --- SM-2 Spaced Repetition (pro Frage) ---
+  Map<String, double> sm2Ef = {}; // Easiness-Faktor (>=1.3)
+  Map<String, int> sm2Interval = {}; // aktuelles Intervall in Tagen
+  Map<String, int> sm2Reps = {}; // Anzahl korrekter Wiederholungen
+  Map<String, int> sm2Faellig = {}; // nächste Fälligkeit (Unix-ms)
+  // --- Readiness-Verlauf (Datum yyyymmdd -> Score 0..100) ---
+  Map<String, int> readinessVerlauf = {};
 
   // Gelöste Quiz-IDs
   Set<String> geloesteFragen = {};
@@ -95,7 +104,60 @@ class FortschrittService {
     _lernTag = _prefs.getString('lern_tag') ?? '';
     _zielErreichtTag = _prefs.getString('ziel_tag') ?? '';
     pruefungsDatum = _prefs.getString('pruefungsdatum');
+
+    sm2Ef = _ladeDoubleMap('sm2_ef');
+    sm2Interval = _ladeIntMap('sm2_int');
+    sm2Reps = _ladeIntMap('sm2_reps');
+    sm2Faellig = _ladeIntMap('sm2_due');
+    readinessVerlauf = _ladeIntMap('readiness', sep: '::');
+
     _tagPruefen(); // ggf. Tageszähler zurücksetzen
+  }
+
+  Map<String, int> _ladeIntMap(String key, {String sep = ':'}) {
+    final out = <String, int>{};
+    for (final e in _prefs.getStringList(key) ?? []) {
+      final t = e.split(sep);
+      if (t.length == 2) out[t[0]] = int.tryParse(t[1]) ?? 0;
+    }
+    return out;
+  }
+
+  Map<String, double> _ladeDoubleMap(String key) {
+    final out = <String, double>{};
+    for (final e in _prefs.getStringList(key) ?? []) {
+      final t = e.split(':');
+      if (t.length == 2) out[t[0]] = double.tryParse(t[1]) ?? 2.5;
+    }
+    return out;
+  }
+
+  // SM-2-Aktualisierung. quality 0..5 (5 = mühelos richtig, <3 = falsch).
+  void _sm2(String id, int quality) {
+    double ef = sm2Ef[id] ?? 2.5;
+    int reps = sm2Reps[id] ?? 0;
+    int interval = sm2Interval[id] ?? 0;
+    if (quality < 3) {
+      reps = 0;
+      interval = 1;
+    } else {
+      ef = ef + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+      if (ef < 1.3) ef = 1.3;
+      if (reps == 0) {
+        interval = 1;
+      } else if (reps == 1) {
+        interval = 6;
+      } else {
+        interval = (interval * ef).round();
+      }
+      reps += 1;
+    }
+    sm2Ef[id] = ef;
+    sm2Reps[id] = reps;
+    sm2Interval[id] = interval;
+    sm2Faellig[id] = DateTime.now()
+        .add(Duration(days: interval))
+        .millisecondsSinceEpoch;
   }
 
   // Zählt eine erledigte Aufgabe für das Tagesziel und pflegt den Streak.
@@ -126,7 +188,9 @@ class FortschrittService {
       bereichRichtig[bereich] = (bereichRichtig[bereich] ?? 0) + 1;
       bereichGesamt[bereich] = (bereichGesamt[bereich] ?? 0) + 1;
     }
+    _sm2(frageId, 5);
     _aufgabeGezaehlt();
+    _readinessHeuteMerken();
     await _speichern();
   }
 
@@ -137,7 +201,9 @@ class FortschrittService {
     if (bereich != null) {
       bereichGesamt[bereich] = (bereichGesamt[bereich] ?? 0) + 1;
     }
+    _sm2(frageId, 2);
     _aufgabeGezaehlt();
+    _readinessHeuteMerken();
     await _speichern();
   }
 
@@ -160,20 +226,72 @@ class FortschrittService {
     return differenz;
   }
 
-  // Welche Fragen JETZT wiederholen? (Spaced Repetition)
+  // Welche Fragen JETZT wiederholen? (SM-2 Spaced Repetition)
   List<String> fragenFuerHeute(List<String> alleFrageIds) {
+    final jetzt = DateTime.now().millisecondsSinceEpoch;
     final faellig = alleFrageIds.where((id) {
-      final box = leitnerBoxen[id] ?? 1;
-      // Box 1: täglich, Box 2: alle 2 Tage, Box 3: alle 4 Tage, etc.
-      final intervall = [1, 2, 4, 8, 16][box - 1];
-      final letzteWiederholung = wiederholungsZeiten[id] ?? 0;
-      final tageSeit =
-          (DateTime.now().millisecondsSinceEpoch - letzteWiederholung) ~/
-              (1000 * 60 * 60 * 24);
-      return tageSeit >= intervall;
+      final due = sm2Faellig[id];
+      return due == null || due <= jetzt; // noch nie gelernt ODER fällig
     }).toList();
-    // Wenn nichts fällig ist, gib trotzdem alle zurück (immer lernen können!)
+    // Schwächste zuerst (kleinstes Intervall)
+    faellig.sort(
+        (a, b) => (sm2Interval[a] ?? 0).compareTo(sm2Interval[b] ?? 0));
     return faellig.isEmpty ? alleFrageIds : faellig;
+  }
+
+  // ---- Prüfungs-Readiness ----
+  static const List<String> hauptBereiche = [
+    'Anmeldung',
+    'Hygiene',
+    'Behandlungsassistenz',
+    'Anästhesie',
+    'Chirurgie',
+    'Karies',
+    'Parodontitis',
+  ];
+
+  /// Bereitschafts-Score 0..100 aus Themen-Beherrschung und Abdeckung.
+  int readinessScore() {
+    double summe = 0;
+    for (final b in hauptBereiche) {
+      final g = bereichGesamt[b] ?? 0;
+      final abdeckung = (g / 8).clamp(0.0, 1.0); // ab 8 Antworten voll gewertet
+      final quote = g == 0 ? 0.0 : bereichQuote(b);
+      summe += quote * abdeckung;
+    }
+    return (summe / hauptBereiche.length * 100).round();
+  }
+
+  /// Geschätzte Bestehenswahrscheinlichkeit (logistische Kurve um 50).
+  int bestehensWahrscheinlichkeit() {
+    final r = readinessScore();
+    final p = 100 / (1 + math.exp(-(r - 48) / 11));
+    return p.clamp(1, 99).round();
+  }
+
+  void _readinessHeuteMerken() {
+    readinessVerlauf[_tagSchluessel(DateTime.now())] = readinessScore();
+  }
+
+  /// Speichert den heutigen Readiness-Wert (z. B. beim Öffnen des Cockpits).
+  Future<void> readinessSnapshot() async {
+    _readinessHeuteMerken();
+    await _speichern();
+  }
+
+  /// Liste der letzten [tage] Tage als (Kürzel, Score) für den Trend.
+  List<MapEntry<String, int>> readinessTrend({int tage = 7}) {
+    const wt = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+    final out = <MapEntry<String, int>>[];
+    int letzter = 0;
+    for (int i = tage - 1; i >= 0; i--) {
+      final tag = DateTime.now().subtract(Duration(days: i));
+      final key = _tagSchluessel(tag);
+      final wert = readinessVerlauf[key] ?? letzter;
+      letzter = wert;
+      out.add(MapEntry(wt[tag.weekday - 1], wert));
+    }
+    return out;
   }
 
   // Wie viele Karten/Fragen in jeder Leitner-Box?
@@ -260,5 +378,15 @@ class FortschrittService {
     } else {
       await _prefs.setString('pruefungsdatum', pruefungsDatum!);
     }
+    await _prefs.setStringList('sm2_ef',
+        sm2Ef.entries.map((e) => '${e.key}:${e.value}').toList());
+    await _prefs.setStringList('sm2_int',
+        sm2Interval.entries.map((e) => '${e.key}:${e.value}').toList());
+    await _prefs.setStringList('sm2_reps',
+        sm2Reps.entries.map((e) => '${e.key}:${e.value}').toList());
+    await _prefs.setStringList('sm2_due',
+        sm2Faellig.entries.map((e) => '${e.key}:${e.value}').toList());
+    await _prefs.setStringList('readiness',
+        readinessVerlauf.entries.map((e) => '${e.key}::${e.value}').toList());
   }
 }

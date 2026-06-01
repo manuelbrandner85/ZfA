@@ -13,6 +13,7 @@ import 'fortschritt_screen.dart';
 import 'muendliche_pruefung_screen.dart';
 import 'mock_pruefung_screen.dart';
 import 'bilder_quiz_screen.dart';
+import 'cockpit_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -94,6 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
+                    const SizedBox(height: 14),
+
+                    // Cockpit-Teaser (Bestehens-Chance)
+                    FadeIn(child: _CockpitTeaser(onReturn: _refresh)),
                     const SizedBox(height: 14),
 
                     // Prüfungs-Countdown + Statistik nebeneinander
@@ -376,6 +381,73 @@ class _PruefungsKachel extends StatelessWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CockpitTeaser extends StatelessWidget {
+  final VoidCallback onReturn;
+  const _CockpitTeaser({required this.onReturn});
+
+  @override
+  Widget build(BuildContext context) {
+    final fs = fortschrittService;
+    final chance = fs.bestehensWahrscheinlichkeit();
+    final readiness = fs.readinessScore();
+    final farbe = chance >= 70
+        ? ZfaTheme.gruen
+        : chance >= 45
+            ? ZfaTheme.gold
+            : ZfaTheme.rot;
+    final tc = Theme.of(context).colorScheme.onSurface;
+    return GlassCard(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const CockpitScreen()))
+            .then((_) => onReturn());
+      },
+      child: Row(
+        children: [
+          SizedBox(
+            width: 52,
+            height: 52,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 52,
+                  height: 52,
+                  child: CircularProgressIndicator(
+                    value: readiness / 100,
+                    strokeWidth: 6,
+                    backgroundColor: tc.withOpacity(0.12),
+                    valueColor: AlwaysStoppedAnimation(farbe),
+                  ),
+                ),
+                Text('$chance%',
+                    style: TextStyle(
+                        color: tc, fontSize: 12, fontWeight: FontWeight.w800)),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Bestehens-Chance',
+                    style: TextStyle(
+                        color: tc, fontSize: 16, fontWeight: FontWeight.w800)),
+                Text('Cockpit öffnen – Trend & Themen',
+                    style:
+                        TextStyle(color: tc.withOpacity(0.6), fontSize: 12)),
+              ],
+            ),
+          ),
+          Icon(Icons.insights_rounded, color: farbe),
         ],
       ),
     );
