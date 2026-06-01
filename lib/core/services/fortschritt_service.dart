@@ -18,6 +18,32 @@ class FortschrittService {
   Map<String, int> bereichRichtig = {};
   Map<String, int> bereichGesamt = {};
 
+  // --- Tagesziel & Gewohnheit ---
+  int tagesziel = 10; // Aufgaben pro Tag
+  int aufgabenHeute = 0;
+  String _lernTag = ''; // yyyymmdd des laufenden Zähltags
+  String _zielErreichtTag = ''; // yyyymmdd, an dem das Ziel zuletzt erreicht wurde
+  // Prüfungstermin (ISO yyyy-MM-dd) – optional
+  String? pruefungsDatum;
+
+  String _tagSchluessel(DateTime d) =>
+      '${d.year}${d.month.toString().padLeft(2, '0')}${d.day.toString().padLeft(2, '0')}';
+
+  void _tagPruefen() {
+    final heute = _tagSchluessel(DateTime.now());
+    if (_lernTag != heute) {
+      _lernTag = heute;
+      aufgabenHeute = 0;
+    }
+  }
+
+  double get tageszielFortschritt {
+    if (tagesziel <= 0) return 1;
+    return (aufgabenHeute / tagesziel).clamp(0.0, 1.0);
+  }
+
+  bool get tageszielErreicht => aufgabenHeute >= tagesziel;
+
   Future<void> laden() async {
     _prefs = await SharedPreferences.getInstance();
     geloesteFragen = (_prefs.getStringList('geloest') ?? []).toSet();
@@ -62,6 +88,31 @@ class FortschrittService {
         bereichGesamt[teile[0]] = int.tryParse(teile[1]) ?? 0;
       }
     }
+
+    // Tagesziel & Prüfungstermin
+    tagesziel = _prefs.getInt('tagesziel') ?? 10;
+    aufgabenHeute = _prefs.getInt('aufgaben_heute') ?? 0;
+    _lernTag = _prefs.getString('lern_tag') ?? '';
+    _zielErreichtTag = _prefs.getString('ziel_tag') ?? '';
+    pruefungsDatum = _prefs.getString('pruefungsdatum');
+    _tagPruefen(); // ggf. Tageszähler zurücksetzen
+  }
+
+  // Zählt eine erledigte Aufgabe für das Tagesziel und pflegt den Streak.
+  void _aufgabeGezaehlt() {
+    _tagPruefen();
+    aufgabenHeute++;
+    if (aufgabenHeute == tagesziel) {
+      final heute = _tagSchluessel(DateTime.now());
+      final gestern = _tagSchluessel(
+          DateTime.now().subtract(const Duration(days: 1)));
+      if (_zielErreichtTag == gestern) {
+        streak++; // Tag an Tag fortgesetzt
+      } else if (_zielErreichtTag != heute) {
+        streak = 1; // neuer Streak beginnt
+      }
+      _zielErreichtTag = heute;
+    }
   }
 
   Future<void> frageRichtigBeantwortet(String frageId, {String? bereich}) async {
@@ -75,6 +126,7 @@ class FortschrittService {
       bereichRichtig[bereich] = (bereichRichtig[bereich] ?? 0) + 1;
       bereichGesamt[bereich] = (bereichGesamt[bereich] ?? 0) + 1;
     }
+    _aufgabeGezaehlt();
     await _speichern();
   }
 
@@ -85,7 +137,27 @@ class FortschrittService {
     if (bereich != null) {
       bereichGesamt[bereich] = (bereichGesamt[bereich] ?? 0) + 1;
     }
+    _aufgabeGezaehlt();
     await _speichern();
+  }
+
+  // --- Prüfungstermin ---
+  Future<void> pruefungsDatumSetzen(DateTime? datum) async {
+    pruefungsDatum = datum == null
+        ? null
+        : '${datum.year}-${datum.month.toString().padLeft(2, '0')}-${datum.day.toString().padLeft(2, '0')}';
+    await _speichern();
+  }
+
+  int? tageBisPruefung() {
+    if (pruefungsDatum == null) return null;
+    final ziel = DateTime.tryParse(pruefungsDatum!);
+    if (ziel == null) return null;
+    final heute = DateTime.now();
+    final differenz = DateTime(ziel.year, ziel.month, ziel.day)
+        .difference(DateTime(heute.year, heute.month, heute.day))
+        .inDays;
+    return differenz;
   }
 
   // Welche Fragen JETZT wiederholen? (Spaced Repetition)
@@ -179,5 +251,14 @@ class FortschrittService {
       'bereich_gesamt',
       bereichGesamt.entries.map((e) => '${e.key}::${e.value}').toList(),
     );
+    await _prefs.setInt('tagesziel', tagesziel);
+    await _prefs.setInt('aufgaben_heute', aufgabenHeute);
+    await _prefs.setString('lern_tag', _lernTag);
+    await _prefs.setString('ziel_tag', _zielErreichtTag);
+    if (pruefungsDatum == null) {
+      await _prefs.remove('pruefungsdatum');
+    } else {
+      await _prefs.setString('pruefungsdatum', pruefungsDatum!);
+    }
   }
 }
