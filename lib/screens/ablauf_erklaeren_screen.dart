@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:confetti/confetti.dart';
 import '../main.dart';
 import '../core/services/stt_service.dart';
+import '../core/services/recorder_service.dart';
 import '../core/text_match.dart';
 import '../theme/zfa_theme.dart';
 import '../models/behandlungsablauf.dart';
@@ -22,6 +23,22 @@ class AblaufErklaerenScreen extends StatefulWidget {
 
 class _AblaufErklaerenScreenState extends State<AblaufErklaerenScreen> {
   final SttService _stt = SttService();
+  final RecorderService _recorder = RecorderService();
+  bool _hatAufnahme = false;
+  bool _nimmtAuf = false;
+
+  Future<void> _aufnahmeToggle() async {
+    if (_nimmtAuf) {
+      await _recorder.stop();
+      setState(() {
+        _nimmtAuf = false;
+        _hatAufnahme = true;
+      });
+    } else {
+      final ok = await _recorder.start();
+      if (ok) setState(() => _nimmtAuf = true);
+    }
+  }
   String _erkannt = '';
   bool _hoert = false;
   bool _mikVerfuegbar = true;
@@ -50,6 +67,7 @@ class _AblaufErklaerenScreenState extends State<AblaufErklaerenScreen> {
 
   @override
   void dispose() {
+    _recorder.freigeben();
     _stt.stoppeUndGibText();
     ttsService.stoppen();
     _confetti.dispose();
@@ -206,6 +224,61 @@ class _AblaufErklaerenScreenState extends State<AblaufErklaerenScreen> {
                                       color: tc,
                                       fontStyle: FontStyle.italic)),
                             ),
+                          const SizedBox(height: 12),
+                          // Eigenen Vortrag aufnehmen & anhören
+                          GlassCard(
+                            padding: const EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('🎙️ Vortrag aufnehmen & anhören',
+                                    style: TextStyle(
+                                        color: tc,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 14)),
+                                const SizedBox(height: 4),
+                                Text(
+                                    'Nimm deine Erklärung auf und hör sie dir an (getrennt von der Bewertung).',
+                                    style: TextStyle(
+                                        color: tc.withOpacity(0.6),
+                                        fontSize: 12)),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton.icon(
+                                        onPressed:
+                                            _hoert ? null : _aufnahmeToggle,
+                                        icon: Icon(_nimmtAuf
+                                            ? Icons.stop
+                                            : Icons.fiber_manual_record),
+                                        label: Text(_nimmtAuf
+                                            ? 'Stop'
+                                            : 'Aufnehmen'),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: _nimmtAuf
+                                                ? ZfaTheme.rot
+                                                : ZfaTheme.blau,
+                                            foregroundColor: Colors.white),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: OutlinedButton.icon(
+                                        onPressed:
+                                            (_hatAufnahme && !_nimmtAuf)
+                                                ? _recorder.abspielen
+                                                : null,
+                                        icon: const Icon(
+                                            Icons.play_arrow_rounded),
+                                        label: const Text('Anhören'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(height: 14),
                           ElevatedButton.icon(
                             onPressed: _auswerten,
