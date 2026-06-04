@@ -26,6 +26,8 @@ import 'reihenfolge_screen.dart';
 import 'ablauf_erklaeren_screen.dart';
 import 'einstellungen_screen.dart';
 import 'favoriten_screen.dart';
+import 'lueckentext_screen.dart';
+import 'zuordnen_screen.dart';
 import '../data/behandlungsablaeufe_daten.dart';
 import 'dart:math' as math;
 
@@ -265,6 +267,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               Color(0xFF6D28D9)
                             ]),
                             const ReihenfolgeScreen(),
+                            _refresh),
+                        _Poster(
+                            '✍️',
+                            'Lückentext',
+                            'Begriff ergänzen',
+                            const LinearGradient(colors: [
+                              Color(0xFFF59E0B),
+                              Color(0xFFB45309)
+                            ]),
+                            const LueckentextScreen(),
+                            _refresh),
+                        _Poster(
+                            '🔗',
+                            'Zuordnen',
+                            'Begriff & Erklärung',
+                            const LinearGradient(colors: [
+                              Color(0xFF14B8A6),
+                              Color(0xFF0F766E)
+                            ]),
+                            const ZuordnenScreen(),
                             _refresh),
                         _Poster(
                             '🎤',
