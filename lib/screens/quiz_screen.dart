@@ -11,7 +11,8 @@ import '../widgets/schwierigkeit.dart';
 
 class QuizScreen extends StatefulWidget {
   final String? nurBereich;
-  const QuizScreen({super.key, this.nurBereich});
+  final bool nurFehler;
+  const QuizScreen({super.key, this.nurBereich, this.nurFehler = false});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -37,6 +38,12 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _fragenLaden() {
     var pool = alleQuizFragen.toList();
+    if (widget.nurFehler) {
+      final ids = fortschrittService.fehlerFragen;
+      _fragen = pool.where((f) => ids.contains(f.id)).toList()..shuffle();
+      _mischen();
+      return;
+    }
     if (widget.nurBereich != null) {
       pool = pool.where((f) => f.bereich == widget.nurBereich).toList();
     }
@@ -172,8 +179,24 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     if (_fragen.isEmpty) {
-      return const Scaffold(
-        body: Center(child: Text('Keine Fragen verfügbar.')),
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.nurFehler ? '🛟 Fehler-Sammlung' : '🎯 Quiz'),
+          backgroundColor: const Color(0xFFE65100),
+          foregroundColor: Colors.white,
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Text(
+              widget.nurFehler
+                  ? 'Stark! Du hast aktuell keine offenen Fehler. 🎉\nFalsch beantwortete Fragen landen hier automatisch zum Wiederholen.'
+                  : 'Keine Fragen verfügbar.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, height: 1.5),
+            ),
+          ),
+        ),
       );
     }
     final frage = _fragen[_index];

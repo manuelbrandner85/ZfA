@@ -5,6 +5,7 @@ import '../main.dart';
 import '../models/lernkarte.dart';
 import '../data/lernkarten_daten.dart';
 import '../widgets/tts_button.dart';
+import '../widgets/fav_stern.dart';
 
 class KarteikartenScreen extends StatefulWidget {
   const KarteikartenScreen({super.key});
@@ -376,10 +377,13 @@ class _Rueckseite extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(karte.emoji, style: const TextStyle(fontSize: 32)),
-                TtsButton(
-                  text: '${karte.einfachVersion}. ${karte.rueckseite}',
-                  farbe: const Color(0xFF1565C0),
-                ),
+                Row(children: [
+                  FavStern(id: karte.id, groesse: 22),
+                  TtsButton(
+                    text: '${karte.einfachVersion}. ${karte.rueckseite}',
+                    farbe: const Color(0xFF1565C0),
+                  ),
+                ]),
               ],
             ),
             const SizedBox(height: 8),

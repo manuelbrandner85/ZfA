@@ -7,6 +7,7 @@ import '../theme/zfa_theme.dart';
 import '../models/behandlungsablauf.dart';
 import '../data/behandlungsablaeufe_daten.dart';
 import 'ablauf_erklaeren_screen.dart';
+import '../widgets/fav_stern.dart';
 
 class AblaeufeScreen extends StatelessWidget {
   const AblaeufeScreen({super.key});
@@ -173,6 +174,7 @@ class _AblaufDetailScreenState extends State<AblaufDetailScreen> {
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
+                    FavStern(id: a.id),
                     IconButton(
                       icon: Icon(
                           _liest

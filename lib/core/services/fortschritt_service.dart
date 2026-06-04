@@ -15,6 +15,17 @@ class FortschrittService {
   int wochenXp = 0;
   String _woche = '';
   Set<String> abzeichen = {};
+  // Aktuell falsch beantwortete Fragen (Fehler-Sammlung).
+  Set<String> fehlerFragen = {};
+  // Favoriten/Lesezeichen (Karten, Abläufe …) per ID.
+  Set<String> favoriten = {};
+
+  bool istFavorit(String id) => favoriten.contains(id);
+
+  Future<void> favoritUmschalten(String id) async {
+    if (!favoriten.add(id)) favoriten.remove(id);
+    await _speichern();
+  }
 
   // Gelöste Quiz-IDs
   Set<String> geloesteFragen = {};
@@ -118,6 +129,8 @@ class FortschrittService {
     wochenXp = _prefs.getInt('wochen_xp') ?? 0;
     _woche = _prefs.getString('woche') ?? '';
     abzeichen = (_prefs.getStringList('abzeichen') ?? []).toSet();
+    fehlerFragen = (_prefs.getStringList('fehler') ?? []).toSet();
+    favoriten = (_prefs.getStringList('favoriten') ?? []).toSet();
     final aktuelleWoche = _wocheSchluessel(DateTime.now());
     if (_woche != aktuelleWoche) {
       _woche = aktuelleWoche;
@@ -215,6 +228,7 @@ class FortschrittService {
 
   Future<void> frageRichtigBeantwortet(String frageId, {String? bereich}) async {
     geloesteFragen.add(frageId);
+    fehlerFragen.remove(frageId);
     gesamtPunkte += 10;
     wochenXp += 10;
     // Leitner: Eine Box höher (max. Box 5)
@@ -234,6 +248,7 @@ class FortschrittService {
   Future<void> frageFalschBeantwortet(String frageId, {String? bereich}) async {
     // Leitner: Zurück zu Box 1!
     leitnerBoxen[frageId] = 1;
+    fehlerFragen.add(frageId);
     wiederholungsZeiten[frageId] = DateTime.now().millisecondsSinceEpoch;
     if (bereich != null) {
       bereichGesamt[bereich] = (bereichGesamt[bereich] ?? 0) + 1;
@@ -428,5 +443,7 @@ class FortschrittService {
     await _prefs.setInt('wochen_xp', wochenXp);
     await _prefs.setString('woche', _woche);
     await _prefs.setStringList('abzeichen', abzeichen.toList());
+    await _prefs.setStringList('fehler', fehlerFragen.toList());
+    await _prefs.setStringList('favoriten', favoriten.toList());
   }
 }

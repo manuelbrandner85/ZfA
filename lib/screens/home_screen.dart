@@ -25,6 +25,7 @@ import 'pruefungsmodus_screen.dart';
 import 'reihenfolge_screen.dart';
 import 'ablauf_erklaeren_screen.dart';
 import 'einstellungen_screen.dart';
+import 'favoriten_screen.dart';
 import '../data/behandlungsablaeufe_daten.dart';
 import 'dart:math' as math;
 
@@ -246,6 +247,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         _Poster('🎯', 'Quiz', 'Wissen testen',
                             ZfaTheme.blauGrad, const QuizScreen(), _refresh),
                         _Poster(
+                            '🛟',
+                            'Fehler-Sammlung',
+                            'Fehler wiederholen',
+                            const LinearGradient(colors: [
+                              Color(0xFFEF4444),
+                              Color(0xFF991B1B)
+                            ]),
+                            const QuizScreen(nurFehler: true),
+                            _refresh),
+                        _Poster(
                             '🔀',
                             'Reihenfolge',
                             'Schritte ordnen',
@@ -354,6 +365,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     _Rail(
                       titel: 'Werkzeuge',
                       poster: [
+                        _Poster(
+                            '🔖',
+                            'Favoriten',
+                            'Gemerktes',
+                            ZfaTheme.goldGrad,
+                            const FavoritenScreen(),
+                            _refresh),
                         _Poster(
                             '📚',
                             'Glossar',
