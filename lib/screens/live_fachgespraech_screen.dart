@@ -127,7 +127,7 @@ class _LiveFachgespraechScreenState extends State<LiveFachgespraechScreen> {
         ? 0.0
         : _scores.reduce((a, b) => a + b) / _scores.length;
     final prozent = (schnitt * 100).round();
-    if (prozent >= 50) {
+    if (einstellungenService.bestanden(prozent)) {
       _confetti.play();
       soundService.levelUp();
     }
@@ -135,14 +135,7 @@ class _LiveFachgespraechScreenState extends State<LiveFachgespraechScreen> {
     fortschrittService.frageRichtigBeantwortet('live_fg', bereich: 'Anmeldung');
   }
 
-  int _note(int prozent) {
-    if (prozent >= 92) return 1;
-    if (prozent >= 81) return 2;
-    if (prozent >= 67) return 3;
-    if (prozent >= 50) return 4;
-    if (prozent >= 30) return 5;
-    return 6;
-  }
+  int _note(int prozent) => einstellungenService.note(prozent);
 
   @override
   void dispose() {
@@ -299,7 +292,7 @@ class _LiveFachgespraechScreenState extends State<LiveFachgespraechScreen> {
         : _scores.reduce((a, b) => a + b) / _scores.length;
     final prozent = (schnitt * 100).round();
     final note = _note(prozent);
-    final bestanden = prozent >= 50;
+    final bestanden = einstellungenService.bestanden(prozent);
     return Scaffold(
       body: Stack(
         children: [

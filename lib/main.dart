@@ -5,6 +5,7 @@ import 'core/services/fortschritt_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/sound_service.dart';
 import 'core/services/eigene_karten_service.dart';
+import 'core/services/einstellungen_service.dart';
 import 'theme/theme_controller.dart';
 import 'theme/zfa_theme.dart';
 import 'screens/splash_screen.dart';
@@ -21,6 +22,8 @@ final ThemeController themeController = ThemeController();
 final SoundService soundService = SoundService();
 // Eigene, vom Nutzer angelegte Karteikarten
 final EigeneKartenService eigeneKartenService = EigeneKartenService();
+// Zentrale App-Einstellungen (Textgröße, Notenschlüssel, Name, Onboarding)
+final EinstellungenService einstellungenService = EinstellungenService();
 // Globaler Audio-Zustand für Mini-Player
 final ValueNotifier<AudioZustand?> aktuellerAudio = ValueNotifier(null);
 
@@ -49,6 +52,7 @@ void main() async {
   await themeController.laden();
   await soundService.initialisieren();
   await eigeneKartenService.laden();
+  await einstellungenService.laden();
   runApp(const ZFALernApp());
 }
 
@@ -66,6 +70,16 @@ class ZFALernApp extends StatelessWidget {
           theme: ZfaTheme.light(),
           darkTheme: ZfaTheme.dark(),
           themeMode: mode,
+          builder: (context, child) {
+            return ValueListenableBuilder<double>(
+              valueListenable: einstellungenService.textSkala,
+              builder: (context, skala, _) => MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: TextScaler.linear(skala)),
+                child: child!,
+              ),
+            );
+          },
           home: const SplashScreen(),
         );
       },

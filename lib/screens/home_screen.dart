@@ -24,6 +24,7 @@ import 'glossar_screen.dart';
 import 'pruefungsmodus_screen.dart';
 import 'reihenfolge_screen.dart';
 import 'ablauf_erklaeren_screen.dart';
+import 'einstellungen_screen.dart';
 import '../data/behandlungsablaeufe_daten.dart';
 import 'dart:math' as math;
 
@@ -101,6 +102,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? Icons.light_mode_rounded
                               : Icons.dark_mode_rounded,
                           onTap: () => themeController.umschalten(),
+                        ),
+                        const SizedBox(width: 8),
+                        _IconPille(
+                          icon: Icons.settings_rounded,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const EinstellungenScreen()),
+                          ).then((_) => _refresh()),
                         ),
                       ],
                     ),

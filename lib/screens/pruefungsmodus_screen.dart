@@ -91,7 +91,7 @@ class _PruefungsmodusScreenState extends State<PruefungsmodusScreen> {
       }
     }
     final prozent = _prozent();
-    if (prozent >= 50) {
+    if (einstellungenService.bestanden(prozent)) {
       _confetti.play();
       soundService.levelUp();
     }
@@ -111,14 +111,7 @@ class _PruefungsmodusScreenState extends State<PruefungsmodusScreen> {
   int _prozent() =>
       _fragen.isEmpty ? 0 : (_richtigAnzahl() / _fragen.length * 100).round();
 
-  int _note(int p) {
-    if (p >= 92) return 1;
-    if (p >= 81) return 2;
-    if (p >= 67) return 3;
-    if (p >= 50) return 4;
-    if (p >= 30) return 5;
-    return 6;
-  }
+  int _note(int p) => einstellungenService.note(p);
 
   @override
   Widget build(BuildContext context) {
@@ -506,7 +499,7 @@ class _PruefungsmodusScreenState extends State<PruefungsmodusScreen> {
     final tc = Theme.of(context).colorScheme.onSurface;
     final prozent = _prozent();
     final note = _note(prozent);
-    final bestanden = prozent >= 50;
+    final bestanden = einstellungenService.bestanden(prozent);
     final falsche = [
       for (int i = 0; i < _fragen.length; i++)
         if (_gewaehlt[i] != _fragen[i].richtigeAntwortIndex) i

@@ -16,7 +16,7 @@ class MockPruefungScreen extends StatefulWidget {
 
 class _MockPruefungScreenState extends State<MockPruefungScreen> {
   static const int _anzahl = 20;
-  static const int _bestehensGrenze = 60; // Prozent
+  int get _bestehensGrenze => einstellungenService.bestehensGrenze;
 
   late List<QuizFrage> _fragen;
   int _index = 0;
