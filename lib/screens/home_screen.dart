@@ -29,6 +29,8 @@ import 'favoriten_screen.dart';
 import 'lueckentext_screen.dart';
 import 'zuordnen_screen.dart';
 import 'fachgespraech_ablaeufe_screen.dart';
+import 'lern_kalender_screen.dart';
+import 'suche_screen.dart';
 import '../data/behandlungsablaeufe_daten.dart';
 import 'dart:math' as math;
 
@@ -106,6 +108,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? Icons.light_mode_rounded
                               : Icons.dark_mode_rounded,
                           onTap: () => themeController.umschalten(),
+                        ),
+                        const SizedBox(width: 8),
+                        _IconPille(
+                          icon: Icons.search_rounded,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const SucheScreen()),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         _IconPille(
@@ -230,6 +241,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Abzeichen & XP',
                             ZfaTheme.goldGrad,
                             const ErfolgeScreen(),
+                            _refresh),
+                        _Poster(
+                            '📆',
+                            'Lern-Kalender',
+                            'Deine Lerntage',
+                            const LinearGradient(colors: [
+                              Color(0xFF16A34A),
+                              Color(0xFF14532D)
+                            ]),
+                            const LernKalenderScreen(),
                             _refresh),
                         _Poster(
                             '📈',

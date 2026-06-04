@@ -19,6 +19,8 @@ class FortschrittService {
   Set<String> fehlerFragen = {};
   // Favoriten/Lesezeichen (Karten, Abläufe …) per ID.
   Set<String> favoriten = {};
+  // Lern-Aktivität je Tag (yyyymmdd -> Anzahl Aufgaben) für den Kalender.
+  Map<String, int> lernTage = {};
 
   bool istFavorit(String id) => favoriten.contains(id);
 
@@ -131,6 +133,7 @@ class FortschrittService {
     abzeichen = (_prefs.getStringList('abzeichen') ?? []).toSet();
     fehlerFragen = (_prefs.getStringList('fehler') ?? []).toSet();
     favoriten = (_prefs.getStringList('favoriten') ?? []).toSet();
+    lernTage = _ladeIntMap('lerntage', sep: '::');
     final aktuelleWoche = _wocheSchluessel(DateTime.now());
     if (_woche != aktuelleWoche) {
       _woche = aktuelleWoche;
@@ -213,6 +216,8 @@ class FortschrittService {
   void _aufgabeGezaehlt() {
     _tagPruefen();
     aufgabenHeute++;
+    final t = _tagSchluessel(DateTime.now());
+    lernTage[t] = (lernTage[t] ?? 0) + 1;
     if (aufgabenHeute == tagesziel) {
       final heute = _tagSchluessel(DateTime.now());
       final gestern = _tagSchluessel(
@@ -445,5 +450,7 @@ class FortschrittService {
     await _prefs.setStringList('abzeichen', abzeichen.toList());
     await _prefs.setStringList('fehler', fehlerFragen.toList());
     await _prefs.setStringList('favoriten', favoriten.toList());
+    await _prefs.setStringList('lerntage',
+        lernTage.entries.map((e) => '${e.key}::${e.value}').toList());
   }
 }
