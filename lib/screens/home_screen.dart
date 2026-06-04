@@ -28,6 +28,7 @@ import 'einstellungen_screen.dart';
 import 'favoriten_screen.dart';
 import 'lueckentext_screen.dart';
 import 'zuordnen_screen.dart';
+import 'fachgespraech_ablaeufe_screen.dart';
 import '../data/behandlungsablaeufe_daten.dart';
 import 'dart:math' as math;
 
@@ -352,9 +353,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             AblaufErklaerenScreen(ablauf: zufallsAblauf),
                             _refresh),
                         _Poster(
+                            '🗣️',
+                            'Fachgespräch: Abläufe',
+                            'Abläufe erklären mit Note',
+                            const LinearGradient(colors: [
+                              Color(0xFF7C3AED),
+                              Color(0xFF4C1D95)
+                            ]),
+                            const FachgespraechAblaeufeScreen(),
+                            _refresh),
+                        _Poster(
                             '🎙️',
                             'Live-Fachgespräch',
-                            'Sprechen mit Note',
+                            'Fragen mit Note',
                             const LinearGradient(colors: [
                               Color(0xFF8B5CF6),
                               Color(0xFF5B21B6)
