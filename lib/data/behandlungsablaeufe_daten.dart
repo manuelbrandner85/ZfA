@@ -6,6 +6,53 @@ import '../models/behandlungsablauf.dart';
 // ============================================================
 
 const List<Behandlungsablauf> alleBehandlungsablaeufe = [
+  // Eigene, neutrale Formulierung nach Standard-ZFA-Wissen (kein fremder Text).
+  Behandlungsablauf(
+    id: 'ab_untersuchung',
+    emoji: '🔎',
+    titel: 'Eingehende Untersuchung',
+    untertitel: 'Befund / 01',
+    bereich: 'Behandlungsassistenz',
+    indikation: '',
+    phasen: [
+      AblaufPhase('Empfang des Patienten', [
+        'Patient begrüßen und anmelden',
+        'Versichertenkarte einlesen',
+        'Anamnesebogen prüfen und aktualisieren',
+        'Vorerkrankungen, Allergien und Medikamente erfragen',
+        'Aktuelle Beschwerden notieren',
+      ]),
+      AblaufPhase('Vorbereitung', [
+        'Behandlungszimmer und Flächen vorbereiten',
+        'Händedesinfektion und Schutzausrüstung anlegen',
+        'Grundbesteck bereitlegen: Mundspiegel, Sonde, Pinzette',
+        'Befundbogen bzw. Befundschema bereitstellen',
+        'Absaugung und Beleuchtung prüfen',
+      ]),
+      AblaufPhase('Befundaufnahme', [
+        'Extraoraler Befund: Gesicht, Lymphknoten, Kiefergelenk',
+        'Intraoraler Befund: Schleimhaut, Zunge, Mundboden, Gaumen',
+        'Zahnstatus erheben: kariöse, fehlende und gefüllte Zähne',
+        'Mit der Sonde verdächtige Stellen abtasten',
+        'Bei Bedarf Sensibilitätstest (Vitalitätsprüfung) assistieren',
+        'Parodontalen Screening-Index (PSI) erheben',
+        'Mundhygiene-Status beurteilen',
+        'Röntgenaufnahmen nur bei rechtfertigender Indikation',
+      ]),
+      AblaufPhase('Abschluss & Planung', [
+        'Befunde dem Zahnarzt für die Diagnose zusammenstellen',
+        'Weiteres Vorgehen und Termine mit dem Patienten besprechen',
+        'Bei Bedarf Heil- und Kostenplan vorbereiten',
+        'Patient verabschieden',
+      ]),
+      AblaufPhase('Nachbereitung & Dokumentation', [
+        'Instrumente aufbereiten und Flächen desinfizieren',
+        'Befund, Zahnstatus und PSI dokumentieren',
+        'Diagnose und geplante Behandlung eintragen',
+        'Leistungen für die Abrechnung erfassen',
+      ]),
+    ],
+  ),
   Behandlungsablauf(
     id: 'ab_komposit',
     emoji: '🦷',

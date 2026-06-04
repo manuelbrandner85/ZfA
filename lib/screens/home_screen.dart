@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontSize: 17,
                                         fontWeight: FontWeight.w800)),
                                 Text(
-                                    '18 echte Abläufe Schritt für Schritt – fürs Fachgespräch',
+                                    '19 echte Abläufe Schritt für Schritt – fürs Fachgespräch',
                                     style: TextStyle(
                                         color: tc.withOpacity(0.6),
                                         fontSize: 12.5)),
